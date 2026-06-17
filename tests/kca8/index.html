@@ -1,0 +1,2117 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DAILYCOACHING | KCA 코치 역량 자기진단검사</title>
+  <style>
+    :root {
+      --bg: #f5f2fb;
+      --surface: #ffffff;
+      --surface-soft: #f8f5ff;
+      --text: #241b3a;
+      --muted: #6c6282;
+      --line: #e6ddf5;
+      --primary: #6b4cd6;
+      --primary-soft: #efe9ff;
+      --accent: #8a6ff0;
+      --danger: #cf4f6c;
+      --success: #2f8f6a;
+      --agree: #3ca370;
+      --agree-soft: #e7f6ee;
+      --neutral: #9ca1af;
+      --disagree: #8a63b3;
+      --disagree-soft: #f1eafd;
+      --shadow: 0 18px 45px rgba(68, 38, 133, 0.12);
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #f7f3ff 0%, #f2f6ff 100%);
+      color: var(--text);
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .shell {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px 88px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 10px 0 14px;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(247,243,255,0.96) 0%, rgba(247,243,255,0.84) 100%);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      line-height: 1.1;
+    }
+
+    .brand-main {
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-size: 1rem;
+    }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(107, 76, 214, 0.08);
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(107, 76, 214, 0.08);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .hero h1, .page-title h2, .section-title h3 {
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.75rem, 3vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .intro-kicker {
+      display: inline-block;
+      margin: 10px 0 0;
+      color: var(--primary);
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-panel {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .mini-panel strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+
+    .mini-panel span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .scale-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scale-item {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .scale-item b {
+      display: block;
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .btn {
+      min-height: 48px;
+      border-radius: 999px;
+      padding: 0 18px;
+      font-weight: 700;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(107, 76, 214, 0.28);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-danger {
+      background: #fff3f5;
+      color: var(--danger);
+      border: 1px solid #ffd4de;
+    }
+
+    .progress-wrap {
+      padding: 18px 20px 0;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: #ece7f8;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-value {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .page {
+      padding: 20px;
+    }
+
+    .page-title {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .page-title h2 {
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+    }
+
+    .page-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .question-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .question-card {
+      border: 1px solid #e1d7f4;
+      border-radius: 26px;
+      padding: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfbff 100%);
+      scroll-margin-top: 120px;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .question-card.is-complete {
+      border-color: rgba(60, 163, 112, 0.32);
+      box-shadow: 0 10px 22px rgba(60, 163, 112, 0.08);
+    }
+
+    .question-card.active-focus {
+      border-color: rgba(107, 76, 214, 0.34);
+      box-shadow: 0 0 0 4px rgba(107, 76, 214, 0.08), 0 12px 28px rgba(107, 76, 214, 0.10);
+      transform: translateY(-1px);
+    }
+
+    .question-head {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .question-head-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .question-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.98rem;
+      transition: all 0.18s ease;
+    }
+
+    .question-card.is-complete .question-number {
+      background: #eaf7f0;
+      color: var(--success);
+      border-color: rgba(47, 143, 106, 0.22);
+    }
+
+    .completion-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f7f4ff;
+      border: 1px solid #e6ddf5;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .completion-badge.done {
+      background: #eef8f3;
+      border-color: #cfe9db;
+      color: var(--success);
+    }
+
+    .question-card h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.024em;
+      line-height: 1.5;
+    }
+
+    .likert-wrap {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: #faf8ff;
+      border: 1px solid #ece3fb;
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mobile-poles {
+      display: none;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .mobile-poles .agree { color: var(--agree); }
+    .mobile-poles .disagree { color: var(--disagree); }
+
+    .likert-side {
+      font-size: 0.95rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .likert-side.agree {
+      color: var(--agree);
+    }
+
+    .likert-side.disagree {
+      color: var(--disagree);
+      text-align: right;
+    }
+
+    .choice-scale {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .choice-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      position: relative;
+      transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .choice-btn:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .choice-btn:focus-visible {
+      outline: 3px solid rgba(107, 76, 214, 0.18);
+      outline-offset: 3px;
+    }
+
+    .choice-btn::before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      border-radius: 999px;
+      border: 3px solid currentColor;
+      background: #fff;
+      box-sizing: border-box;
+      transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .choice-btn::after {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      color: transparent;
+      transition: color 0.15s ease, transform 0.15s ease;
+      transform: scale(0.8);
+    }
+
+    .choice-btn.score-5,
+    .choice-btn.score-4 {
+      color: var(--agree);
+    }
+
+    .choice-btn.score-3 {
+      color: var(--neutral);
+    }
+
+    .choice-btn.score-2,
+    .choice-btn.score-1 {
+      color: var(--disagree);
+    }
+
+    .choice-btn.score-5,
+    .choice-btn.score-1 {
+      width: 60px;
+      height: 60px;
+    }
+
+    .choice-btn.score-4,
+    .choice-btn.score-2 {
+      width: 52px;
+      height: 52px;
+    }
+
+    .choice-btn.score-3 {
+      width: 42px;
+      height: 42px;
+    }
+
+    .choice-btn.active.score-5::before,
+    .choice-btn.active.score-4::before {
+      background: var(--agree-soft);
+      box-shadow: inset 0 0 0 10px currentColor, 0 8px 18px rgba(60, 163, 112, 0.18);
+    }
+
+    .choice-btn.active.score-3::before {
+      background: #eff1f5;
+      box-shadow: inset 0 0 0 7px currentColor, 0 8px 18px rgba(156, 161, 175, 0.18);
+    }
+
+    .choice-btn.active.score-2::before,
+    .choice-btn.active.score-1::before {
+      background: var(--disagree-soft);
+      box-shadow: inset 0 0 0 10px currentColor, 0 8px 18px rgba(138, 99, 179, 0.18);
+    }
+
+    .choice-btn.active {
+      transform: scale(1.05);
+    }
+
+    .choice-btn.active::after {
+      color: #fff;
+      transform: scale(1);
+    }
+
+    .choice-hint {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: #5f5675;
+      font-size: 0.84rem;
+      padding: 0 88px;
+      font-weight: 700;
+    }
+
+    .choice-hint span {
+      flex: 1;
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer-nav .group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat-box {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .stat-box small {
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .stat-box strong {
+      font-size: 1.4rem;
+      display: block;
+      letter-spacing: -0.03em;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .section-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fff;
+      padding: 18px;
+    }
+
+    .section-title {
+      margin-bottom: 14px;
+    }
+
+    .section-title h3 {
+      font-size: 1.1rem;
+    }
+
+    .section-title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .score-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .score-item {
+      display: grid;
+      grid-template-columns: minmax(0, 120px) minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .score-item .label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12px;
+      background: #eee8fb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7a61e1, #9f8bfa);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      font-size: 0.93rem;
+      font-weight: 700;
+    }
+
+    .tag.good { color: var(--success); }
+    .tag.bad { color: var(--danger); }
+
+    textarea {
+      width: 100%;
+      min-height: 92px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      resize: vertical;
+    }
+
+    .note-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .note-item {
+      background: #ffffff;
+      border: 1px solid #e8def7;
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .note-item strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .low-item-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .result-hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .metric-hero {
+      border-radius: 24px;
+      padding: 22px;
+      background: linear-gradient(135deg, #6b4cd6 0%, #8d71f0 100%);
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(107, 76, 214, 0.22);
+    }
+
+    .metric-hero small {
+      display: block;
+      opacity: 0.82;
+      margin-bottom: 8px;
+    }
+
+    .metric-hero strong {
+      display: block;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .metric-hero .sub {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .metric-hero .sub span {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .summary-card {
+      background: #fff;
+      border: 1px solid #e7def7;
+      border-radius: 24px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-block {
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: #faf8ff;
+      border: 1px solid #ece3fb;
+    }
+
+    .summary-block strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .revisit-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .revisit-card {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid #e8def7;
+      background: #fcfbff;
+    }
+
+    .revisit-card h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .low-item {
+      border-radius: 16px;
+      background: #fff8fa;
+      border: 1px solid #ffd9e1;
+      padding: 12px 14px;
+      font-size: 0.94rem;
+    }
+
+    .low-item b {
+      color: var(--danger);
+    }
+
+    .prompt-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .prompt-item {
+      border-radius: 14px;
+      background: #f8f5ff;
+      border: 1px solid #ddd3f4;
+      padding: 12px 14px;
+      font-size: 0.94rem;
+      color: var(--text);
+    }
+
+    .prompt-item b {
+      color: var(--primary);
+    }
+
+    .empty-state {
+      padding: 18px;
+      border-radius: 18px;
+      background: #f8fbff;
+      border: 1px dashed #c9d9f7;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .feedback-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      padding: 16px;
+    }
+
+    .feedback-card h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .feedback-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .feedback-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .feedback-badge.strong {
+      color: var(--success);
+      background: #eef8f3;
+      border-color: #cfe9db;
+    }
+
+    .feedback-badge.stable {
+      color: var(--primary);
+      background: #f5f1ff;
+      border-color: #dfd3fa;
+    }
+
+    .feedback-badge.focus {
+      color: var(--danger);
+      background: #fff4f7;
+      border-color: #ffd6df;
+    }
+
+    .print-summary {
+      display: none;
+      margin-bottom: 18px;
+      padding: 18px;
+      border: 1px solid #d9d1ea;
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .print-summary h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .print-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      color: #5e5872;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .print-summary p {
+      margin: 0;
+      color: #3e3558;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    .svg-wrap {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #faf8ff 0%, #f5f8ff 100%);
+      border: 1px solid var(--line);
+      padding: 10px;
+    }
+
+    .svg-wrap svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    @media (max-width: 820px) {
+      .hero-grid,
+      .result-grid,
+      .stats-grid,
+      .result-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .score-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .hero,
+      .page,
+      .progress-wrap {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .scale-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .question-card {
+        padding: 16px 14px;
+        scroll-margin-top: 88px;
+      }
+
+      .choice-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .mobile-poles {
+        display: flex;
+      }
+
+      .likert-side {
+        display: none;
+      }
+
+      .choice-scale {
+        gap: 8px;
+      }
+
+      .choice-btn.score-5,
+      .choice-btn.score-1 {
+        width: 52px;
+        height: 52px;
+      }
+
+      .choice-btn.score-4,
+      .choice-btn.score-2 {
+        width: 46px;
+        height: 46px;
+      }
+
+      .choice-btn.score-3 {
+        width: 38px;
+        height: 38px;
+      }
+
+      .choice-hint {
+        padding: 0;
+        font-size: 0.75rem;
+        gap: 4px;
+      }
+
+      .metric-hero,
+      .summary-card {
+        padding: 18px;
+      }
+
+      .choice-hint span:nth-child(2),
+      .choice-hint span:nth-child(4) {
+        font-size: 0.72rem;
+      }
+
+      .footer-nav {
+        flex-direction: column;
+      }
+
+      .footer-nav .group,
+      .footer-nav .btn,
+      .actions .btn {
+        width: 100%;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 14mm;
+    }
+
+    @media print {
+      html, body {
+        background: #fff !important;
+      }
+
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .topbar,
+      .footer-nav,
+      .actions,
+      .helper,
+      .no-print {
+        display: none !important;
+      }
+
+      .shell {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .section-card,
+      .question-card,
+      .stat-box,
+      .summary-card,
+      .metric-hero,
+      .feedback-card,
+      .revisit-card,
+      .note-item {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .card {
+        border: 0;
+      }
+
+      .page {
+        padding: 0;
+      }
+
+      .result-hero,
+      .result-grid,
+      .feedback-grid,
+      .stats-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .metric-hero {
+        background: #f4efff !important;
+        color: #241b3a !important;
+        border: 1px solid #ddd3f4;
+      }
+
+      .metric-hero .sub span {
+        background: #fff !important;
+        border-color: #ddd3f4 !important;
+        color: #241b3a !important;
+      }
+
+      .svg-wrap {
+        background: #fff !important;
+      }
+
+      .print-summary,
+      .print-only {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand"><div class="brand-main">DAILYCOACHING</div><div class="brand-sub">KCA 코치 역량 자기진단검사</div></div>
+      <div class="chip" id="autosave-status">자동 저장 켜짐</div>
+    </div>
+
+    <div class="card">
+      <div id="app"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==============================
+    // App Config
+    // ==============================
+    const STORAGE_KEY = 'dailycoaching-kca-coach-competency-v7';
+    const CATEGORY_MAX_SCORE = 40;
+    const RADAR_STEPS = 8;
+    const INTRO_SCALE_LABELS = {
+      5: '매우 그렇다',
+      4: '대체로 그렇다',
+      3: '보통이다',
+      2: '별로 그렇지 않다',
+      1: '전혀 그렇지 않다'
+    };
+    const SCORE_TONE_LABELS = {
+      5: '매우 그렇다',
+      4: '그렇다',
+      3: '보통이다',
+      2: '그렇지 않은 편이다',
+      1: '전혀 그렇지 않다'
+    };
+    const NOTE_FIELDS = ['top1', 'top2', 'top3', 'low1', 'low2', 'low3', 'improvement'];
+
+    const SCALE_LABELS = {
+      5: '매우/항상',
+      4: '주로',
+      3: '절반 정도',
+      2: '별로 아님',
+      1: '전혀 아님'
+    };
+
+    // ==============================
+    // App Data
+    // ==============================
+    const CATEGORIES = [
+      {
+            "id": 1,
+            "group": "코치다움",
+            "name": "윤리 실천",
+            "description": "코칭의 경계를 분명히 하고 고객의 자기결정권을 지키는 힘",
+            "items": [
+                  "코칭 시작 전에 코칭이 다루는 범위와 다루지 않는 범위를 설명한다.",
+                  "비밀보장 범위와 예외 상황을 첫 합의 때 고객과 확인한다.",
+                  "세션 기록은 필요한 수준으로만 남기고 정해진 방식으로 보관한다.",
+                  "코칭 효과를 설명할 때 기대 가능한 변화와 한계를 함께 말한다.",
+                  "내 경력, 자격, 경험을 소개할 때 확인 가능한 사실만 사용한다.",
+                  "코칭보다 다른 지원이 더 적절해 보일 때 그 가능성을 고객과 상의한다.",
+                  "후원자나 이해관계자가 있을 때 공유 가능한 정보 범위를 사전에 합의한다.",
+                  "이해관계 충돌이나 경계가 모호해질 수 있는 상황에서는 그 사실을 숨기지 않고 고객과 분명히 다룬다."
+            ]
+      },
+      {
+            "id": 2,
+            "group": "코치다움",
+            "name": "자기 인식",
+            "description": "세션 안팎에서 내 반응과 개입 패턴을 알아차리는 힘",
+            "items": [
+                  "세션 중 내가 서두르고 싶어지는 순간을 알아차린다.",
+                  "세션 중 감정이 흔들릴 때 몸의 반응으로 먼저 감지한다.",
+                  "고객의 말에 유난히 찔리거나 끌리는 지점을 스스로 표시해 둔다.",
+                  "질문하기 전에 지금 내 의도가 탐색인지 유도인지 잠깐 점검한다.",
+                  "세션 후 내가 많이 개입한 장면과 기다린 장면을 구분해 본다.",
+                  "고객을 특정 틀로 해석하고 있지 않은지 중간중간 확인한다.",
+                  "반복적으로 어렵게 느껴지는 고객 유형이 생기면 그 패턴을 기록하거나 성찰한다.",
+                  "세션 중 흔들림이 있어도 지금 여기 코치로서의 내 존재를 인식하고 그 존재 방식을 신뢰한다."
+            ]
+      },
+      {
+            "id": 3,
+            "group": "코치다움",
+            "name": "자기 관리",
+            "description": "안정된 상태와 일관된 운영으로 코칭의 질을 지키는 힘",
+            "items": [
+                  "세션 전 방해 요소를 정리하고 집중 가능한 환경을 만든다.",
+                  "컨디션이 불안정할 때 시작 전에 짧게 호흡하거나 정돈 시간을 가진다.",
+                  "내가 약속한 시간, 방식, 후속 조치를 실제로 지킨다.",
+                  "고객 반응이 예상과 달라도 말 속도를 급하게 올리지 않는다.",
+                  "모르는 내용이 나오면 추정으로 채우지 않고 확인 질문을 한다.",
+                  "예상과 다른 고객 반응이나 저항 앞에서도 방어보다 개방적인 태도를 유지한다.",
+                  "고객이 막힘을 말할 때 조급하게 긍정으로 돌리기보다 그 지점에 머문다.",
+                  "세션 후 흐트러졌던 장면을 다음 세션 전에 정리하고 조정 포인트를 잡는다."
+            ]
+      },
+      {
+            "id": 4,
+            "group": "코치다움",
+            "name": "전문 계발",
+            "description": "계약·과정·성과를 구조적으로 운영하며 전문성을 키우는 힘",
+            "items": [
+                  "고객 상황을 듣고 코칭 주제와 범위를 구조화해 설명한다.",
+                  "계약 전에 기간, 회기, 비용, 비밀보장, 종료 조건을 확인한다.",
+                  "코칭 시작 전에 목표를 측정 가능한 표현으로 함께 정리한다.",
+                  "다회기 코칭에서 각 회기가 전체 목표와 어떻게 연결되는지 점검한다.",
+                  "이해관계자가 있을 때 소통 시점과 방식을 사전에 정한다.",
+                  "중간 또는 종료 시 목표 대비 변화와 남은 과제를 함께 검토한다.",
+                  "코칭 후 학습이 필요한 주제를 메모하고 실제 학습 계획에 넣는다.",
+                  "멘토코칭, 교육, 독서, 녹취 리뷰 중 한 가지 이상을 정기 루틴으로 운영한다."
+            ]
+      },
+      {
+            "id": 5,
+            "group": "코칭다움",
+            "name": "관계 구축",
+            "description": "수평적 파트너십과 안전감을 바탕으로 신뢰를 만드는 힘",
+            "items": [
+                  "세션 초반 고객이 원하는 대화 방식과 속도를 묻고 거기에 맞춰 대화를 연다.",
+                  "중요한 방향 전환이 필요할 때 고객의 선택을 먼저 확인한다.",
+                  "고객의 강점이나 노력을 말할 때 구체적인 장면을 근거로 짚어 준다.",
+                  "고객이 말하기 어려운 주제를 꺼냈을 때 서두르지 않고 안전하게 머문다.",
+                  "고객이 반복해 쓰는 단어나 비유를 질문과 반영에 그대로 활용한다.",
+                  "고객을 이해했다고 느껴질수록 확인 질문으로 다시 점검한다.",
+                  "필요한 순간 내 느낌이나 관찰을 짧게 공유하되 해석처럼 들리지 않게 말한다.",
+                  "고객의 문제 해결 여부와 별개로 그 사람의 존재와 노력을 구체적으로 인정하는 언어를 사용한다."
+            ]
+      },
+      {
+            "id": 6,
+            "group": "코칭다움",
+            "name": "적극 경청",
+            "description": "말과 맥락을 함께 듣고 반영해 고객의 표현을 돕는 힘",
+            "items": [
+                  "고객의 단어 선택, 말의 속도, 침묵의 길이를 함께 들으려 한다.",
+                  "고객이 말할 때 화면이나 노트보다 고객의 흐름에 먼저 주의를 둔다.",
+                  "필요할 때 고객의 말과 행동 사이의 어긋남이나 피하고 있는 지점을 존중하는 방식으로 직면하도록 돕는다.",
+                  "고객의 긴 이야기를 핵심 문장으로 재진술해 확인한다.",
+                  "여러 내용을 들은 뒤 생각, 감정, 의도를 나누어 요약한다.",
+                  "감정을 들었을 때 해결책보다 그 감정을 먼저 반영한다.",
+                  "고객 말 뒤의 욕구나 의도를 단정하지 않고 확인 질문으로 묻는다.",
+                  "고객의 말과 표정이 어긋날 때 해석보다 관찰 사실을 말하며 확인한다."
+            ]
+      },
+      {
+            "id": 7,
+            "group": "코칭다움",
+            "name": "의식 확장",
+            "description": "질문과 도구로 통찰, 관점 전환, 가능성 확대를 돕는 힘",
+            "items": [
+                  "닫힌 질문보다 무엇, 어떻게 중심의 열린 질문을 더 자주 사용한다.",
+                  "질문할 때 판단이나 비난으로 들릴 수 있는 표현을 줄인다.",
+                  "고객이 멈출 필요가 있을 때 침묵을 서둘러 끊지 않고 잠시 기다린다.",
+                  "설명만 반복될 때 비유, 은유, 도구 중 맞는 방식을 골라 탐색을 돕는다.",
+                  "현재 사건을 가치나 반복 패턴 차원으로 연결해 묻는다.",
+                  "모호한 표현이 나오면 예시, 장면, 행동 수준으로 구체화하게 돕는다.",
+                  "고객이 한 관점에 갇혀 있을 때 다른 시점의 질문을 던진다.",
+                  "실행 가능성을 넓히기 위해 가능한 선택지를 여러 개 떠올리게 한다."
+            ]
+      },
+      {
+            "id": 8,
+            "group": "코칭다움",
+            "name": "성장 지원",
+            "description": "배움이 실행과 변화로 이어지도록 설계하고 점검하는 힘",
+            "items": [
+                  "세션 말미에 오늘의 배움을 고객의 말로 직접 정리하게 한다.",
+                  "고객의 배움과 통찰이 그의 가치관과 정체성 안에서 어떤 의미를 갖는지 함께 확인한다.",
+                  "실행 계획은 코치가 정하기보다 고객이 직접 설계하도록 돕는다.",
+                  "실행과제를 정한 뒤 왜 그것을 선택했는지 고객 스스로 말하게 한다.",
+                  "실행을 돕거나 방해할 사람, 환경, 자원을 함께 점검한다.",
+                  "다음 점검 시점과 확인 방식을 구체적으로 정한다.",
+                  "다음 세션에서 실행 결과뿐 아니라 배운 점과 조정점을 함께 돌아본다.",
+                  "작은 진전이라도 변화의 의미를 구체적으로 짚어 주며 마무리한다."
+            ]
+      }
+];
+
+    const TOTAL_QUESTION_COUNT = CATEGORIES.reduce((sum, category) => sum + category.items.length, 0);
+    const FLAT_QUESTIONS = CATEGORIES.flatMap(category => category.items.map((text, index) => ({
+      categoryId: category.id,
+      categoryName: category.name,
+      itemIndex: index,
+      text
+    })));
+
+    // ==============================
+    // App Prompts
+    // ==============================
+
+    // ==============================
+    // State / Storage
+    // ==============================
+    function getEmptyState() {
+      return defaultState();
+    }
+
+    const IMPROVEMENT_PROMPTS = {
+      "1": [
+            "내 코칭 시작 안내에서 가장 먼저 더 분명하게 합의해야 할 경계는 무엇인가요?",
+            "이해관계 충돌이나 경계가 흐려질 수 있는 장면을 더 분명히 다루려면 나는 어떤 질문과 합의를 준비해야 하나요?"
+      ],
+      "2": [
+            "최근 세션에서 내 반응이 가장 크게 올라왔던 순간은 언제였나요?",
+            "흔들리는 순간에도 코치로서의 내 존재를 신뢰하려면 어떤 성찰 질문이 도움이 될까요?"
+      ],
+      "3": [
+            "내 안정감을 가장 흔드는 상황은 무엇이며, 시작 전에 무엇을 정돈하면 달라질까요?",
+            "예상과 다른 반응 앞에서도 개방성을 유지하려면 다음 세션 전 무엇을 먼저 점검해야 하나요?"
+      ],
+      "4": [
+            "계약·목표·과정 관리 중 내가 가장 자주 놓치는 운영 장면은 무엇인가요?",
+            "전문성을 키우기 위해 다음 한 달 안에 꾸준히 이어갈 학습 루틴 하나는 무엇인가요?"
+      ],
+      "5": [
+            "고객이 더 안전하게 말하도록 내가 줄여야 할 서두름이나 해석 습관은 무엇인가요?",
+            "고객의 존재와 노력을 더 분명히 인정하려면 다음 세션에서 어떤 언어를 먼저 사용할 수 있나요?"
+      ],
+      "6": [
+            "내가 자주 놓치는 고객 신호는 단어, 감정, 침묵, 표정 중 무엇에 가까운가요?",
+            "존중을 해치지 않으면서도 필요한 직면을 하려면 다음 세션에서 어떤 표현을 실험해볼 수 있나요?"
+      ],
+      "7": [
+            "내 질문은 통찰을 여는 편인가요, 아니면 답을 유도하는 편인가요?",
+            "고객의 시야를 넓히기 위해 다음 세션에서 시도할 다른 관점 질문 하나는 무엇인가요?"
+      ],
+      "8": [
+            "오늘의 배움이 고객의 가치관과 정체성에 연결되도록 하려면 어떤 질문을 더 보완해야 하나요?",
+            "작은 변화도 놓치지 않고 축하하려면 다음 세션 마무리에서 어떤 말을 해볼 수 있나요?"
+      ]
+};
+
+    const AUTO_FEEDBACK = {
+      1: {
+        strong: '윤리 실천이 비교적 안정적으로 자리 잡고 있습니다. 경계 설정과 정보 공유, 이해관계 조율에서 신뢰를 주는 운영 기반이 보입니다.',
+        stable: '윤리 실천의 기본 흐름은 갖추고 있습니다. 다만 계약 조건, 경계가 흐려지는 장면, 정보 공유 범위를 더 선명하게 다루면 일관성이 높아집니다.',
+        focus: '윤리 실천은 코칭 신뢰의 기초입니다. 비밀보장, 경계 설명, 이해상충 대응부터 다시 정리하면 전체 코칭 품질이 함께 안정됩니다.'
+      },
+      2: {
+        strong: '자기 인식이 비교적 선명합니다. 세션 중 올라오는 반응을 알아차리고 개입의 질을 돌아볼 수 있는 성찰 기반이 보입니다.',
+        stable: '자기 인식은 형성되고 있습니다. 다만 서두름, 감정 흔들림, 해석 습관을 더 자주 포착하면 코칭의 정밀도가 높아집니다.',
+        focus: '지금은 자기 인식을 더 세우는 것이 우선입니다. 내 반응을 못 보면 질문과 개입의 방향이 흐려질 수 있으니 세션 중·후 성찰 루틴을 강화해 보세요.'
+      },
+      3: {
+        strong: '자기 관리가 안정적입니다. 세션 운영의 일관성과 정서적 침착함이 코칭의 안전감으로 이어질 가능성이 큽니다.',
+        stable: '기본적인 자기 관리는 유지되고 있습니다. 다만 낯선 반응 앞에서 개방성과 중립성을 더 의식하면 흔들림이 줄어듭니다.',
+        focus: '자기 관리는 다른 모든 역량의 바탕입니다. 세션 전 정돈, 판단 유보, 일관된 후속조치부터 다시 세우는 것이 좋겠습니다.'
+      },
+      4: {
+        strong: '전문 계발 역량이 탄탄합니다. 계약, 목표, 과정, 학습 루틴을 구조적으로 다루는 힘이 비교적 잘 자리 잡고 있습니다.',
+        stable: '전문 계발의 기본 흐름은 갖추고 있습니다. 다만 목표 관리와 학습 루틴을 더 명시적으로 운영하면 숙련도가 한 단계 올라갑니다.',
+        focus: '전문 계발은 좋은 의도를 실제 품질로 연결하는 장치입니다. 계약, 목표 점검, 학습 루틴을 먼저 구조화해 보세요.'
+      },
+      5: {
+        strong: '관계 구축이 강점으로 보입니다. 고객이 안전하게 말할 수 있는 분위기와 수평적 파트너십을 만드는 힘이 살아 있습니다.',
+        stable: '관계 구축은 무난한 편입니다. 다만 존재 인정, 지지의 언어, 서두르지 않는 호기심을 조금 더 의식하면 깊이가 커집니다.',
+        focus: '관계 구축은 코칭의 문을 여는 역량입니다. 안전감, 인정, 호기심이 약하면 다른 기술도 힘을 잃으니 먼저 신뢰 기반을 세워 보세요.'
+      },
+      6: {
+        strong: '적극 경청이 비교적 강합니다. 말의 내용뿐 아니라 감정과 맥락을 함께 듣고 반영하는 능력이 잘 드러납니다.',
+        stable: '경청의 기본은 갖추고 있습니다. 다만 재진술의 정확도와 어긋남을 다루는 직면의 질을 보강하면 한층 선명해집니다.',
+        focus: '지금은 듣는 힘을 다시 세우는 것이 중요합니다. 해결보다 반영을 앞세우고, 말과 표정의 어긋남을 더 세심하게 다뤄 보세요.'
+      },
+      7: {
+        strong: '의식 확장 역량이 살아 있습니다. 질문과 관점 전환을 통해 고객이 새로운 의미와 가능성을 보도록 돕는 힘이 돋보입니다.',
+        stable: '질문과 탐색의 흐름은 좋은 편입니다. 다만 통찰을 여는 질문과 구체화 질문의 균형을 조금 더 의식하면 더 좋아집니다.',
+        focus: '의식 확장은 코칭의 차별점이 드러나는 지점입니다. 판단을 줄이고 열린 질문, 침묵, 관점 전환을 더 의도적으로 사용해 보세요.'
+      },
+      8: {
+        strong: '성장 지원 역량이 좋습니다. 배움을 실행과 점검으로 연결하고 변화의 의미를 붙잡아 주는 마무리 힘이 보입니다.',
+        stable: '성장 지원의 기본은 갖추고 있습니다. 다만 통찰을 가치관과 정체성, 후속 실행과 더 단단히 연결하면 지속성이 높아집니다.',
+        focus: '지금은 배움을 행동 전환으로 잇는 설계가 더 필요합니다. 실행 점검, 후원 환경, 작은 변화의 의미화부터 차근히 보강해 보세요.'
+      }
+    };
+
+    const FEEDBACK_TONE = {
+      strong: '강점',
+      stable: '유지·확장',
+      focus: '집중 보완'
+    };
+
+    // ==============================
+    // DOM / Runtime State
+    // ==============================
+    const DOM = {
+      app: document.getElementById('app'),
+      autosaveStatus: document.getElementById('autosave-status')
+    };
+    const state = loadState();
+
+    render();
+
+    function createDefaultNotes() {
+      return NOTE_FIELDS.reduce((accumulator, field) => {
+        accumulator[field] = '';
+        return accumulator;
+      }, {});
+    }
+
+    function defaultState() {
+      return {
+        screen: 'intro',
+        sectionIndex: 0,
+        answers: {},
+        notes: createDefaultNotes()
+      };
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        const base = getEmptyState();
+        return saved ? { ...base, ...saved, notes: { ...base.notes, ...(saved.notes || {}) } } : base;
+      } catch (error) {
+        return getEmptyState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      DOM.autosaveStatus.textContent = '자동 저장 완료';
+      clearTimeout(saveState._t);
+      saveState._t = setTimeout(() => {
+        DOM.autosaveStatus.textContent = '자동 저장 켜짐';
+      }, 1200);
+    }
+
+    function setState(patch) {
+      Object.assign(state, patch);
+      saveState();
+      render();
+    }
+
+    function totalQuestionCount() {
+      return FLAT_QUESTIONS.length;
+    }
+
+    function answeredCount() {
+      return Object.keys(state.answers).length;
+    }
+
+    function getQuestionKey(categoryId, itemIndex) {
+      return `${categoryId}-${itemIndex}`;
+    }
+
+    function getScoreToneLabel(score) {
+      return SCORE_TONE_LABELS[score] || '';
+    }
+
+    // ==============================
+    // User Actions
+    // ==============================
+    function updateAnswer(categoryId, itemIndex, value) {
+      state.answers[getQuestionKey(categoryId, itemIndex)] = value;
+      saveState();
+      render();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          scrollToNextQuestion(categoryId, itemIndex);
+        });
+      });
+    }
+
+    function clearAll() {
+      if (!window.confirm('응답과 메모를 모두 지울까요?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      Object.assign(state, getEmptyState());
+      render();
+    }
+
+    function startTest() {
+      setState({ screen: 'test', sectionIndex: 0 });
+    }
+
+    function goSection(direction) {
+      const nextIndex = state.sectionIndex + direction;
+      if (nextIndex < 0 || nextIndex >= CATEGORIES.length) return;
+      setState({ sectionIndex: nextIndex });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToNextQuestion(categoryId, itemIndex) {
+      if (state.screen !== 'test') return;
+      const nextQuestion = document.querySelector(`[data-question-card="${categoryId}-${itemIndex + 1}"]`);
+      const fallbackTarget = document.getElementById('next-btn') || document.getElementById('finish-btn');
+      const target = nextQuestion || fallbackTarget;
+      if (!target) return;
+
+      document.querySelectorAll('.question-card.active-focus').forEach(card => card.classList.remove('active-focus'));
+      if (nextQuestion) nextQuestion.classList.add('active-focus');
+
+      const rect = target.getBoundingClientRect();
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const desiredOffset = window.innerWidth <= 768
+        ? Math.max(110, window.innerHeight * 0.28)
+        : 132;
+      const targetTop = rect.top + currentScroll - desiredOffset;
+      window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    }
+
+    function finishTest() {
+      if (answeredCount() < totalQuestionCount()) {
+        const ok = window.confirm('아직 답하지 않은 문항이 있습니다. 결과 화면으로 이동할까요?');
+        if (!ok) return;
+      }
+      setState({ screen: 'result' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToIntro() {
+      setState({ screen: 'intro' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToTest() {
+      setState({ screen: 'test' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    
+    // ==============================
+    // Rendering
+    // ==============================
+    function render() {
+      if (state.screen === 'intro') {
+        renderIntro();
+        return;
+      }
+      if (state.screen === 'test') {
+        renderTest();
+        return;
+      }
+      renderResult();
+    }
+
+    function buildIntroPanels(total) {
+      return `
+        <div class="hero-grid">
+          <div class="mini-panel">
+            <strong>소요 시간</strong>
+            <span>약 8~12분 안에 최근 실제 세션 기준으로 점검할 수 있습니다.</span>
+          </div>
+          <div class="mini-panel">
+            <strong>검사 구성</strong>
+            <span>총 ${total}문항, 8개 영역이며 코치다움 4역량과 코칭다움 4역량으로 구성됩니다.</span>
+          </div>
+          <div class="mini-panel">
+            <strong>검사 결과</strong>
+            <span>강점 3개, 보완점 3개, 권장 개선 질문과 실행 계획을 바로 확인할 수 있습니다.</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildScaleGuide() {
+      return `
+        <div class="mini-panel">
+          <strong style="margin-bottom:12px;">응답 안내</strong>
+          <span style="display:block; margin-bottom:12px;">정답은 없습니다. 이상적인 코치상이 아니라, 실제 세션에서의 나와 가장 가까운 응답을 선택해주세요.</span>
+          <div class="scale-grid">
+            ${[5, 4, 3, 2, 1].map(score => `
+              <div class="scale-item">
+                <b>${score}점</b>
+                <span>${INTRO_SCALE_LABELS[score]}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function buildIntroActions() {
+      return `
+        <div class="actions">
+          <button class="btn btn-primary" id="start-btn">검사 시작하기</button>
+          ${answeredCount() > 0 ? '<button class="btn btn-secondary" id="continue-btn">이어서 응답</button>' : ''}
+          <button class="btn btn-danger" id="reset-btn">기록 초기화</button>
+        </div>
+      `;
+    }
+
+    function bindIntroEvents() {
+      document.getElementById('start-btn').onclick = startTest;
+      document.getElementById('reset-btn').onclick = clearAll;
+      const continueBtn = document.getElementById('continue-btn');
+      if (continueBtn) continueBtn.onclick = () => setState({ screen: 'test' });
+    }
+
+    function renderIntro() {
+      const total = totalQuestionCount();
+      DOM.app.innerHTML = `
+        <section class="hero">
+          <div>
+            <div class="chip">DAILYCOACHING</div>
+            <div class="intro-kicker">KCA 코칭역량 8가지 기반 코치 역량 자기진단</div>
+            <h1 style="margin-top:12px;">나의 코치 역량을 실제 세션 기준으로 점검해보세요</h1>
+            <p style="margin-top:12px;">총 ${total}문항을 통해 윤리 실천, 자기 인식, 자기 관리, 전문 계발, 관계 구축, 적극 경청, 의식 확장, 성장 지원 역량을 점검하고 현재의 강점과 보완점을 확인할 수 있습니다.</p>
+          </div>
+
+          ${buildIntroPanels(total)}
+          ${buildScaleGuide()}
+
+          <div class="mini-panel">
+            <strong style="margin-bottom:12px;">활용 안내</strong>
+            <span>이 검사는 KCA 코칭역량 해설집의 정의, 핵심 요소, 행동 지표를 바탕으로 재구성한 자기진단용 점검 도구입니다. 인증 판정이 아니라 현재의 코칭 습관과 개발 방향을 확인하는 데 활용하세요.</span>
+          </div>
+
+          ${buildIntroActions()}
+          <div class="helper">응답 내용은 이 브라우저에 자동 저장됩니다. 같은 기기와 브라우저에서 다시 열면 이어서 응답할 수 있습니다.<br><strong style="color: var(--text); font-weight: 700;">DAILYCOACHING은 점검에서 끝나지 않고, 코치의 다음 성장 질문까지 함께 봅니다.</strong></div>
+        </section>
+      `;
+
+      bindIntroEvents();
+    }
+
+    function renderProgress(progress) {
+      return `
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span>전체 진행 ${answeredCount()} / ${totalQuestionCount()}</span>
+            <span>${progress}% 완료</span>
+          </div>
+          <div class="progress-bar"><div class="progress-value" style="width:${progress}%"></div></div>
+        </div>
+      `;
+    }
+
+    function renderTestHeader(category, sectionAnswered) {
+      return `
+        <div class="page-title">
+          <div>
+            <h2>(${category.id}) ${category.name}</h2>
+            <p>${category.group} · ${category.description} · ${sectionAnswered}/${category.items.length} 응답</p>
+            <p class="helper" style="margin-top:6px;">원을 터치하면 다음 문항이 엄지 위치에 가깝게 자동 스크롤됩니다.</p>
+          </div>
+          <div class="chip">${category.group} · 섹션 ${state.sectionIndex + 1} / ${CATEGORIES.length}</div>
+        </div>
+      `;
+    }
+
+    function renderQuestionCard(category, text, index) {
+      const key = getQuestionKey(category.id, index);
+      const selected = state.answers[key];
+      return `
+        <article class="question-card ${selected ? 'is-complete' : ''}" data-question-card="${category.id}-${index}">
+          <div class="question-head">
+            <div class="question-head-top">
+              <span class="question-number">${index + 1}</span>
+              <span class="completion-badge ${selected ? 'done' : ''}">${selected ? '응답 완료' : '응답 전'}</span>
+            </div>
+            <h4>${text}</h4>
+          </div>
+          <div class="likert-wrap">
+            <div class="mobile-poles" aria-hidden="true"><span class="agree">그렇다</span><span class="disagree">그렇지 않다</span></div>
+            <div class="choice-row" role="radiogroup" aria-label="${index + 1}번 문항 응답">
+              <div class="likert-side agree">그렇다</div>
+              <div class="choice-scale">
+                ${[5, 4, 3, 2, 1].map(score => `
+                  <button
+                    class="choice-btn score-${score} ${selected === score ? 'active' : ''}"
+                    data-score="${score}"
+                    data-category="${category.id}"
+                    data-item="${index}"
+                    data-short="${score}"
+                    type="button"
+                    role="radio"
+                    aria-checked="${selected === score ? 'true' : 'false'}"
+                    aria-label="${index + 1}번 문항, ${getScoreToneLabel(score)}, ${score}점"
+                    title="${getScoreToneLabel(score)} (${score}점)">
+                  </button>
+                `).join('')}
+              </div>
+              <div class="likert-side disagree">그렇지 않다</div>
+            </div>
+            <div class="choice-hint" aria-hidden="true">
+              <span>매우<br>그렇다</span>
+              <span>그렇다</span>
+              <span>보통</span>
+              <span>아니다</span>
+              <span>전혀<br>아니다</span>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderTestFooter() {
+      return `
+        <div class="footer-nav">
+          <div class="group">
+            <button class="btn btn-secondary" id="back-intro-btn">처음으로</button>
+            <button class="btn btn-secondary" id="prev-btn" ${state.sectionIndex === 0 ? 'disabled' : ''}>이전 영역</button>
+          </div>
+          <div class="group">
+            ${state.sectionIndex < CATEGORIES.length - 1
+              ? '<button class="btn btn-primary" id="next-btn">다음 영역</button>'
+              : '<button class="btn btn-primary" id="finish-btn">결과 보기</button>'}
+          </div>
+        </div>
+      `;
+    }
+
+    function bindTestEvents() {
+      document.querySelectorAll('.choice-btn').forEach(button => {
+        button.onclick = () => updateAnswer(Number(button.dataset.category), Number(button.dataset.item), Number(button.dataset.score));
+      });
+      document.getElementById('back-intro-btn').onclick = backToIntro;
+      document.getElementById('prev-btn').onclick = () => goSection(-1);
+      const nextBtn = document.getElementById('next-btn');
+      if (nextBtn) nextBtn.onclick = () => goSection(1);
+      const finishBtn = document.getElementById('finish-btn');
+      if (finishBtn) finishBtn.onclick = finishTest;
+    }
+
+    function renderTest() {
+      const category = CATEGORIES[state.sectionIndex];
+      const sectionAnswered = category.items.filter((_, index) => state.answers[getQuestionKey(category.id, index)]).length;
+      const progress = Math.round((answeredCount() / totalQuestionCount()) * 100);
+
+      DOM.app.innerHTML = `
+        ${renderProgress(progress)}
+        <section class="page">
+          ${renderTestHeader(category, sectionAnswered)}
+          <div class="question-list">
+            ${category.items.map((text, index) => renderQuestionCard(category, text, index)).join('')}
+          </div>
+          ${renderTestFooter()}
+        </section>
+      `;
+
+      bindTestEvents();
+    }
+
+    // ==============================
+    // Scoring / Results
+    // ==============================
+    function calculateResults() {
+      const categories = CATEGORIES.map(category => {
+        const itemDetails = category.items.map((text, index) => {
+          const score = Number(state.answers[getQuestionKey(category.id, index)] || 0);
+          return { index: index + 1, text, score };
+        });
+        const score = itemDetails.reduce((sum, item) => sum + item.score, 0);
+        const lowItems = itemDetails.filter(item => item.score > 0 && item.score <= 2);
+        const answeredItems = itemDetails.filter(item => item.score > 0);
+        const lowestAnsweredScore = answeredItems.length
+          ? Math.min(...answeredItems.map(item => item.score))
+          : 0;
+        const revisitItems = lowItems.length
+          ? lowItems
+          : answeredItems.filter(item => item.score === lowestAnsweredScore);
+        const revisitMode = lowItems.length
+          ? 'low-score'
+          : answeredItems.length
+            ? 'relative-low-score'
+            : 'no-answer';
+
+        return {
+          id: category.id,
+          group: category.group,
+          name: category.name,
+          description: category.description,
+          score,
+          average: Number((score / category.items.length).toFixed(2)),
+          itemDetails,
+          lowItems,
+          lowestAnsweredScore,
+          revisitItems,
+          revisitMode
+        };
+      });
+
+      const sortedDesc = [...categories].sort((a, b) => b.score - a.score || a.id - b.id);
+      const sortedAsc = [...categories].sort((a, b) => a.score - b.score || a.id - b.id);
+      const total = categories.reduce((sum, category) => sum + category.score, 0);
+      return {
+        categories,
+        sortedDesc,
+        sortedAsc,
+        top3: sortedDesc.slice(0, 3),
+        low3: sortedAsc.slice(0, 3),
+        total,
+        average: Number((total / totalQuestionCount()).toFixed(2))
+      };
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function renderPromptList(categoryId) {
+      const prompts = IMPROVEMENT_PROMPTS[categoryId] || [];
+      if (!prompts.length) return '';
+      return `
+        <div class="prompt-list">
+          ${prompts.map((prompt, index) => `
+            <div class="prompt-item"><b>권장 개선 질문 ${index + 1}</b><br>${prompt}</div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderRadar(categories) {
+      const size = 520;
+      const center = size / 2;
+      const radius = 175;
+      const steps = RADAR_STEPS;
+      const maxScore = CATEGORY_MAX_SCORE;
+
+      const labels = categories.map(category => category.name);
+      const points = categories.map((category, index) => {
+        const angle = (-Math.PI / 2) + (Math.PI * 2 * index / categories.length);
+        const valueRadius = radius * (category.score / maxScore);
+        return {
+          x: center + Math.cos(angle) * valueRadius,
+          y: center + Math.sin(angle) * valueRadius,
+          angle,
+          labelX: center + Math.cos(angle) * (radius + 32),
+          labelY: center + Math.sin(angle) * (radius + 32),
+          label: labels[index]
+        };
+      });
+
+      const polygonPoints = points.map(point => `${point.x},${point.y}`).join(' ');
+
+      const rings = Array.from({ length: steps }, (_, index) => {
+        const ringRadius = radius * ((index + 1) / steps);
+        const ringPoints = categories.map((_, itemIndex) => {
+          const angle = (-Math.PI / 2) + (Math.PI * 2 * itemIndex / categories.length);
+          return `${center + Math.cos(angle) * ringRadius},${center + Math.sin(angle) * ringRadius}`;
+        }).join(' ');
+        return `<polygon points="${ringPoints}" fill="none" stroke="#ddd3f4" stroke-width="1"></polygon>`;
+      }).join('');
+
+      const axes = categories.map((_, index) => {
+        const angle = (-Math.PI / 2) + (Math.PI * 2 * index / categories.length);
+        return `<line x1="${center}" y1="${center}" x2="${center + Math.cos(angle) * radius}" y2="${center + Math.sin(angle) * radius}" stroke="#ddd3f4" stroke-width="1"></line>`;
+      }).join('');
+
+      const labelsSvg = points.map(point => `
+        <text x="${point.labelX}" y="${point.labelY}" font-size="15" font-weight="700" fill="#5f5675" text-anchor="middle" dominant-baseline="middle">${escapeHtml(point.label)}</text>
+      `).join('');
+
+      const ticks = Array.from({ length: steps }, (_, index) => {
+        const value = (maxScore / steps) * (index + 1);
+        const y = center - (radius * ((index + 1) / steps));
+        return `<text x="${center + 6}" y="${y - 4}" font-size="11" fill="#8d84a3">${value}</text>`;
+      }).join('');
+
+      return `
+        <svg viewBox="0 0 ${size} ${size}" role="img" aria-label="영역별 점수 레이더 차트">
+          ${rings}
+          ${axes}
+          <polygon points="${polygonPoints}" fill="rgba(107, 76, 214, 0.16)" stroke="#6b4cd6" stroke-width="3"></polygon>
+          ${points.map(point => `<circle cx="${point.x}" cy="${point.y}" r="4" fill="#6b4cd6"></circle>`).join('')}
+          ${labelsSvg}
+          ${ticks}
+        </svg>
+      `;
+    }
+
+    function updateNote(field, value) {
+      state.notes[field] = value;
+      saveState();
+    }
+
+    function renderReasonInputs(title, targets, fieldPrefix) {
+      return `
+        <div class="section-card">
+          <div class="section-title">
+            <h3>${title}</h3>
+            <p>강점과 보완점의 이유를 짧게 적어보며 현재의 코칭 습관을 해석해보세요.</p>
+          </div>
+          <div class="note-grid">
+            ${targets.map((target, index) => `
+              <div class="note-item">
+                <strong>(${index + 1}) ${target.name} · ${target.score}점</strong>
+                <textarea data-note="${fieldPrefix}${index + 1}" placeholder="이 점수가 나온 이유를 간단히 적어보세요.">${escapeHtml(state.notes[`${fieldPrefix}${index + 1}`] || '')}</textarea>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderResultHero(result, completion) {
+      return `
+        <div class="result-hero">
+          <div class="metric-hero">
+            <small>전체 코치 역량 한눈에 보기</small>
+            <strong>${result.total}점</strong>
+            <div class="sub">
+              <span>문항 평균 ${result.average}점</span>
+              <span>응답 ${answeredCount()} / ${totalQuestionCount()}</span>
+              <span>완료율 ${completion}%</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-block">
+              <strong>강점 3개</strong>
+              <div class="tag-list">
+                ${result.top3.map(item => `<div class="tag good">${item.group} · ${item.name} · ${item.score}점</div>`).join('')}
+              </div>
+            </div>
+            <div class="summary-block">
+              <strong>보완점 3개</strong>
+              <div class="tag-list">
+                ${result.low3.map(item => `<div class="tag bad">${item.group} · ${item.name} · ${item.score}점</div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderScoreSection(result) {
+      return `
+        <div class="result-grid">
+          <div class="section-card">
+            <div class="section-title">
+              <h3>영역별 점수</h3>
+              <p>영역당 최대 ${CATEGORY_MAX_SCORE}점입니다.</p>
+            </div>
+            <div class="score-list">
+              ${result.categories.map(category => `
+                <div class="score-item">
+                  <div class="label">(${category.id}) ${category.name}</div>
+                  <div class="bar"><span style="width:${(category.score / CATEGORY_MAX_SCORE) * 100}%"></span></div>
+                  <div><strong>${category.score}</strong> / ${CATEGORY_MAX_SCORE}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-title">
+              <h3>레이더 차트</h3>
+              <p>8개 코칭역량의 균형을 한눈에 볼 수 있게 구성했습니다.</p>
+            </div>
+            <div class="svg-wrap">${renderRadar(result.categories)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRevisitCard(category) {
+      return `
+        <div class="revisit-card">
+          <h4>${category.name}</h4>
+          ${category.revisitMode === 'low-score'
+            ? `<div class="helper" style="margin-bottom:10px;">이 역량에서 1점 또는 2점으로 응답한 문항입니다.</div>`
+            : category.revisitMode === 'relative-low-score'
+              ? `<div class="helper" style="margin-bottom:10px;">1점 또는 2점 문항은 없어서, 이 역량에서 가장 낮게 응답한 ${category.lowestAnsweredScore}점 문항을 보여드립니다.</div>`
+              : '<div class="empty-state">아직 이 역량에 응답한 문항이 없습니다.</div>'}
+          ${category.revisitMode !== 'no-answer'
+            ? `<div class="low-item-list">${category.revisitItems.map(item => `
+                <div class="low-item"><b>${item.score}점</b> · ${item.index}. ${item.text}</div>
+              `).join('')}</div>`
+            : ''}
+          ${renderPromptList(category.id)}
+        </div>
+      `;
+    }
+
+    function renderRevisitSection(result) {
+      return `
+        <div class="section-card" style="margin-top:18px;">
+          <div class="section-title">
+            <h3>보완이 필요한 역량 다시 보기</h3>
+            <p>1점·2점 문항이 없더라도 각 보완 역량 안에서 상대적으로 가장 낮았던 문항을 보여주어 개발 포인트를 놓치지 않게 했습니다.</p>
+          </div>
+          <div class="revisit-stack">
+            ${result.low3.map(category => renderRevisitCard(category)).join('')}
+          </div>
+
+          <div class="note-item" style="margin-top:14px;">
+            <strong>나의 역량 개발 실행계획</strong>
+            <textarea id="improvement-note" placeholder="다음 세션 전까지 실천해볼 구체적인 개발 행동을 적어보세요.">${escapeHtml(state.notes.improvement || '')}</textarea>
+          </div>
+        </div>
+      `;
+    }
+
+    function getFeedbackTone(category) {
+      if (category.average >= 4.2) return 'strong';
+      if (category.average >= 3.2) return 'stable';
+      return 'focus';
+    }
+
+    function renderAutoFeedbackSection(result) {
+      return `
+        <div class="section-card" style="margin-top:18px;">
+          <div class="section-title">
+            <h3>자동 해석 피드백</h3>
+            <p>현재 점수를 바탕으로 역량별 해석 문장을 자동으로 제공합니다.</p>
+          </div>
+          <div class="feedback-grid">
+            ${result.categories.map(renderAutoFeedbackCard).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAutoFeedbackCard(category) {
+      const tone = getFeedbackTone(category);
+      const feedback = AUTO_FEEDBACK[category.id]?.[tone] || '';
+      return `
+        <div class="feedback-card">
+          <div class="feedback-badge ${tone}">${FEEDBACK_TONE[tone]}</div>
+          <h4>${category.group} · ${category.name}</h4>
+          <p>${feedback}</p>
+        </div>
+      `;
+    }
+
+    function renderPrintSummary(result, completion) {
+      const printedAt = new Date().toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      const strongest = result.top3[0];
+      const weakest = result.low3[0];
+      return `
+        <div class="print-summary print-only">
+          <h3>KCA 코치 역량 자기진단검사 결과 요약</h3>
+          <div class="print-meta">
+            <span>출력 일시 ${printedAt}</span>
+            <span>총점 ${result.total}점</span>
+            <span>문항 평균 ${result.average}점</span>
+            <span>응답률 ${completion}%</span>
+          </div>
+          <p>현재 결과에서 가장 두드러진 강점은 <b>${strongest ? strongest.name : '-'}</b>이며, 우선 보완이 필요한 영역은 <b>${weakest ? weakest.name : '-'}</b>입니다. 아래 출력물은 현재 응답을 바탕으로 한 자기진단 결과 요약입니다.</p>
+        </div>
+      `;
+    }
+
+    function renderResultFooter() {
+      return `
+        <div class="footer-nav no-print">
+          <div class="group">
+            <button class="btn btn-secondary" id="back-test-btn">응답 화면으로</button>
+            <button class="btn btn-secondary" id="back-home-btn">처음으로</button>
+          </div>
+          <div class="group">
+            <button class="btn btn-secondary" id="print-btn">PDF 저장/인쇄</button>
+            <button class="btn btn-danger" id="reset-result-btn">기록 초기화</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function bindResultEvents() {
+      document.querySelectorAll('[data-note]').forEach(textarea => {
+        textarea.addEventListener('input', event => updateNote(textarea.dataset.note, event.target.value));
+      });
+      document.getElementById('improvement-note').addEventListener('input', event => updateNote('improvement', event.target.value));
+      document.getElementById('back-test-btn').onclick = backToTest;
+      document.getElementById('back-home-btn').onclick = backToIntro;
+      document.getElementById('print-btn').onclick = () => window.print();
+      document.getElementById('reset-result-btn').onclick = clearAll;
+    }
+
+    function renderResult() {
+      const result = calculateResults();
+      const completion = Math.round((answeredCount() / totalQuestionCount()) * 100);
+
+      DOM.app.innerHTML = `
+        <section class="page">
+          <div class="page-title">
+            <div>
+              <h2>검사 결과</h2>
+              <p>영역별 점수, 자동 해석 피드백, 강점 3개, 보완점 3개, 권장 개선 질문</p>
+            </div>
+            <div class="chip">응답률 ${completion}%</div>
+          </div>
+
+          ${renderPrintSummary(result, completion)}
+          ${renderResultHero(result, completion)}
+          ${renderScoreSection(result)}
+          ${renderAutoFeedbackSection(result)}
+
+          <div class="result-grid" style="margin-top:18px;">
+            ${renderReasonInputs('강점 3개와 그 이유', result.top3, 'top')}
+            ${renderReasonInputs('보완점 3개와 그 이유', result.low3, 'low')}
+          </div>
+
+          ${renderRevisitSection(result)}
+          ${renderResultFooter()}
+
+          <div class="print-only helper center" style="margin-top:16px;">KCA 코치 역량 자기진단검사 결과 요약</div>
+        </section>
+      `;
+
+      bindResultEvents();
+    }
+
+  </script>
+</body>
+</html>
