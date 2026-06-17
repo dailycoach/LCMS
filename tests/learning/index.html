@@ -1,0 +1,1780 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DAILYCOACHING | 자기주도학습 역량검사</title>
+  <style>
+    :root {
+      --bg: #f5f2fb;
+      --surface: #ffffff;
+      --surface-soft: #f8f5ff;
+      --text: #241b3a;
+      --muted: #6c6282;
+      --line: #e6ddf5;
+      --primary: #6b4cd6;
+      --primary-soft: #efe9ff;
+      --accent: #8a6ff0;
+      --danger: #cf4f6c;
+      --success: #2f8f6a;
+      --agree: #3ca370;
+      --agree-soft: #e7f6ee;
+      --neutral: #9ca1af;
+      --disagree: #8a63b3;
+      --disagree-soft: #f1eafd;
+      --shadow: 0 18px 45px rgba(68, 38, 133, 0.12);
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #f7f3ff 0%, #f2f6ff 100%);
+      color: var(--text);
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .shell {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px 88px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 10px 0 14px;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(247,243,255,0.96) 0%, rgba(247,243,255,0.84) 100%);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      line-height: 1.1;
+    }
+
+    .brand-main {
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-size: 1rem;
+    }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(107, 76, 214, 0.08);
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(107, 76, 214, 0.08);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .hero h1, .page-title h2, .section-title h3 {
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.75rem, 3vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .intro-kicker {
+      display: inline-block;
+      margin: 10px 0 0;
+      color: var(--primary);
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-panel {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .mini-panel strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+
+    .mini-panel span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .scale-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scale-item {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .scale-item b {
+      display: block;
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .btn {
+      min-height: 48px;
+      border-radius: 999px;
+      padding: 0 18px;
+      font-weight: 700;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(107, 76, 214, 0.28);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-danger {
+      background: #fff3f5;
+      color: var(--danger);
+      border: 1px solid #ffd4de;
+    }
+
+    .progress-wrap {
+      padding: 18px 20px 0;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: #ece7f8;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-value {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: inherit;
+      transition: width 0.2s ease;
+    }
+
+    .page {
+      padding: 20px;
+    }
+
+    .page-title {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .page-title h2 {
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+    }
+
+    .page-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .question-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .question-card {
+      border: 1px solid #e1d7f4;
+      border-radius: 26px;
+      padding: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfbff 100%);
+      scroll-margin-top: 120px;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .question-card.is-complete {
+      border-color: rgba(60, 163, 112, 0.32);
+      box-shadow: 0 10px 22px rgba(60, 163, 112, 0.08);
+    }
+
+    .question-card.active-focus {
+      border-color: rgba(107, 76, 214, 0.34);
+      box-shadow: 0 0 0 4px rgba(107, 76, 214, 0.08), 0 12px 28px rgba(107, 76, 214, 0.10);
+      transform: translateY(-1px);
+    }
+
+    .question-head {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .question-head-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .question-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.98rem;
+      transition: all 0.18s ease;
+    }
+
+    .question-card.is-complete .question-number {
+      background: #eaf7f0;
+      color: var(--success);
+      border-color: rgba(47, 143, 106, 0.22);
+    }
+
+    .completion-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f7f4ff;
+      border: 1px solid #e6ddf5;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .completion-badge.done {
+      background: #eef8f3;
+      border-color: #cfe9db;
+      color: var(--success);
+    }
+
+    .question-card h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.024em;
+      line-height: 1.5;
+    }
+
+    .likert-wrap {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: #faf8ff;
+      border: 1px solid #ece3fb;
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mobile-poles {
+      display: none;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .mobile-poles .agree { color: var(--agree); }
+    .mobile-poles .disagree { color: var(--disagree); }
+
+    .likert-side {
+      font-size: 0.95rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .likert-side.agree {
+      color: var(--agree);
+    }
+
+    .likert-side.disagree {
+      color: var(--disagree);
+      text-align: right;
+    }
+
+    .choice-scale {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .choice-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      position: relative;
+      transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .choice-btn:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .choice-btn:focus-visible {
+      outline: 3px solid rgba(107, 76, 214, 0.18);
+      outline-offset: 3px;
+    }
+
+    .choice-btn::before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      border-radius: 999px;
+      border: 3px solid currentColor;
+      background: #fff;
+      box-sizing: border-box;
+      transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .choice-btn::after {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      color: transparent;
+      transition: color 0.15s ease, transform 0.15s ease;
+      transform: scale(0.8);
+    }
+
+    .choice-btn.score-5,
+    .choice-btn.score-4 {
+      color: var(--agree);
+    }
+
+    .choice-btn.score-3 {
+      color: var(--neutral);
+    }
+
+    .choice-btn.score-2,
+    .choice-btn.score-1 {
+      color: var(--disagree);
+    }
+
+    .choice-btn.score-5,
+    .choice-btn.score-1 {
+      width: 60px;
+      height: 60px;
+    }
+
+    .choice-btn.score-4,
+    .choice-btn.score-2 {
+      width: 52px;
+      height: 52px;
+    }
+
+    .choice-btn.score-3 {
+      width: 42px;
+      height: 42px;
+    }
+
+    .choice-btn.active.score-5::before,
+    .choice-btn.active.score-4::before {
+      background: var(--agree-soft);
+      box-shadow: inset 0 0 0 10px currentColor, 0 8px 18px rgba(60, 163, 112, 0.18);
+    }
+
+    .choice-btn.active.score-3::before {
+      background: #eff1f5;
+      box-shadow: inset 0 0 0 7px currentColor, 0 8px 18px rgba(156, 161, 175, 0.18);
+    }
+
+    .choice-btn.active.score-2::before,
+    .choice-btn.active.score-1::before {
+      background: var(--disagree-soft);
+      box-shadow: inset 0 0 0 10px currentColor, 0 8px 18px rgba(138, 99, 179, 0.18);
+    }
+
+    .choice-btn.active {
+      transform: scale(1.05);
+    }
+
+    .choice-btn.active::after {
+      color: #fff;
+      transform: scale(1);
+    }
+
+    .choice-hint {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: #5f5675;
+      font-size: 0.84rem;
+      padding: 0 88px;
+      font-weight: 700;
+    }
+
+    .choice-hint span {
+      flex: 1;
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .footer-nav .group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat-box {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .stat-box small {
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .stat-box strong {
+      font-size: 1.4rem;
+      display: block;
+      letter-spacing: -0.03em;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .section-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fff;
+      padding: 18px;
+    }
+
+    .section-title {
+      margin-bottom: 14px;
+    }
+
+    .section-title h3 {
+      font-size: 1.1rem;
+    }
+
+    .section-title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .score-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .score-item {
+      display: grid;
+      grid-template-columns: minmax(0, 120px) minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .score-item .label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12px;
+      background: #eee8fb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7a61e1, #9f8bfa);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      font-size: 0.93rem;
+      font-weight: 700;
+    }
+
+    .tag.good { color: var(--success); }
+    .tag.bad { color: var(--danger); }
+
+    textarea {
+      width: 100%;
+      min-height: 92px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      resize: vertical;
+    }
+
+    .note-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .note-item {
+      background: #ffffff;
+      border: 1px solid #e8def7;
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .note-item strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .low-item-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .result-hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .metric-hero {
+      border-radius: 24px;
+      padding: 22px;
+      background: linear-gradient(135deg, #6b4cd6 0%, #8d71f0 100%);
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(107, 76, 214, 0.22);
+    }
+
+    .metric-hero small {
+      display: block;
+      opacity: 0.82;
+      margin-bottom: 8px;
+    }
+
+    .metric-hero strong {
+      display: block;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .metric-hero .sub {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .metric-hero .sub span {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .summary-card {
+      background: #fff;
+      border: 1px solid #e7def7;
+      border-radius: 24px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-block {
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: #faf8ff;
+      border: 1px solid #ece3fb;
+    }
+
+    .summary-block strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .revisit-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .revisit-card {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid #e8def7;
+      background: #fcfbff;
+    }
+
+    .revisit-card h4 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .low-item {
+      border-radius: 16px;
+      background: #fff8fa;
+      border: 1px solid #ffd9e1;
+      padding: 12px 14px;
+      font-size: 0.94rem;
+    }
+
+    .low-item b {
+      color: var(--danger);
+    }
+
+    .prompt-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .prompt-item {
+      border-radius: 14px;
+      background: #f8f5ff;
+      border: 1px solid #ddd3f4;
+      padding: 12px 14px;
+      font-size: 0.94rem;
+      color: var(--text);
+    }
+
+    .prompt-item b {
+      color: var(--primary);
+    }
+
+    .empty-state {
+      padding: 18px;
+      border-radius: 18px;
+      background: #f8fbff;
+      border: 1px dashed #c9d9f7;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    .svg-wrap {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #faf8ff 0%, #f5f8ff 100%);
+      border: 1px solid var(--line);
+      padding: 10px;
+    }
+
+    .svg-wrap svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    @media (max-width: 820px) {
+      .hero-grid,
+      .result-grid,
+      .stats-grid,
+      .result-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .score-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .hero,
+      .page,
+      .progress-wrap {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .scale-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .question-card {
+        padding: 16px 14px;
+        scroll-margin-top: 88px;
+      }
+
+      .choice-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .mobile-poles {
+        display: flex;
+      }
+
+      .likert-side {
+        display: none;
+      }
+
+      .choice-scale {
+        gap: 8px;
+      }
+
+      .choice-btn.score-5,
+      .choice-btn.score-1 {
+        width: 52px;
+        height: 52px;
+      }
+
+      .choice-btn.score-4,
+      .choice-btn.score-2 {
+        width: 46px;
+        height: 46px;
+      }
+
+      .choice-btn.score-3 {
+        width: 38px;
+        height: 38px;
+      }
+
+      .choice-hint {
+        padding: 0;
+        font-size: 0.75rem;
+        gap: 4px;
+      }
+
+      .metric-hero,
+      .summary-card {
+        padding: 18px;
+      }
+
+      .choice-hint span:nth-child(2),
+      .choice-hint span:nth-child(4) {
+        font-size: 0.72rem;
+      }
+
+      .footer-nav {
+        flex-direction: column;
+      }
+
+      .footer-nav .group,
+      .footer-nav .btn,
+      .actions .btn {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .topbar,
+      .footer-nav,
+      .actions,
+      .helper,
+      .no-print {
+        display: none !important;
+      }
+
+      .shell {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .section-card,
+      .question-card,
+      .stat-box {
+        box-shadow: none;
+      }
+
+      .print-only {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand"><div class="brand-main">DAILYCOACHING</div><div class="brand-sub">자기주도학습 역량검사</div></div>
+      <div class="chip" id="autosave-status">자동 저장 켜짐</div>
+    </div>
+
+    <div class="card">
+      <div id="app"></div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'self-directed-learning-mvp-v1';
+
+    const SCALE_LABELS = {
+      5: '매우/항상',
+      4: '주로',
+      3: '절반 정도',
+      2: '별로 아님',
+      1: '전혀 아님'
+    };
+
+    const CATEGORIES = [
+      {
+        id: 1,
+        name: '동기 부여',
+        description: '공부의 의미를 느끼고 스스로 배우려는 힘',
+        items: [
+          '배우는 것이 즐겁다.',
+          '나는 학교 공부를 충분히 잘 할 만한 두뇌 능력을 지니고 있다고 여긴다.',
+          '지금 학교에서 배우고 있는 내용은 나의 삶에 도움이 된다.',
+          '공부를 하는 데 있어서 내가 어떤 강점과 약점을 지니고 있는지 평가해본다.',
+          '성적 향상을 위해 최선의 노력을 기울여본 적이 있다.',
+          '나의 성향에 맞는 공부방법을 알고 활용한다.',
+          '지금보다 성적이 오를 수 있는 방법이 있다면 조금 힘들더라도 시도해보겠다.',
+          '공부를 왜 해야 하는가에 대한 자기 나름의 이유를 이야기할 수 있다.'
+        ]
+      },
+      {
+        id: 2,
+        name: '계획 세우기',
+        description: '목표를 정하고 시간과 분량을 조절하는 힘',
+        items: [
+          '앞으로 6개월이나 1년 후쯤 나의 성적이 어떤 수준에 도달해 있으면 좋겠다는 목표를 세우고 떠올려 본다.',
+          '다음 시험에서 거두고 싶은 구체적인 성적 목표를 세운다.',
+          '매일 또는 매주 학습 계획을 세운다.',
+          '매일 우선순위를 정해서 해야 할 학습 과제를 선택한다.',
+          '계획에 맞추어 규칙적으로 휴식을 한다.',
+          '각각의 과목마다 어느 정도 공부 시간이 필요한지 파악하고 그 과목의 특성에 따라 공부시간을 조정한다.',
+          '그 날 계획한 공부 분량은 그날에 반드시 끝낸다.',
+          '수업시간, 또는 기타 잠깐의 자투리 시간을 공부에 잘 활용하고 있다.'
+        ]
+      },
+      {
+        id: 3,
+        name: '기억력',
+        description: '이해와 반복을 통해 오래 기억하는 힘',
+        items: [
+          '나는 기억력이 좋다고 자신한다.',
+          '사람 이름을 외우는 데 별 문제가 없다.',
+          '수업이 끝나갈 무렵이면 그 시간에 무엇을 배웠는지 요약할 수 있다.',
+          '쉽게 외우고 오래 기억하기 위한 나만의 암기 테크닉을 사용하고 있다.',
+          '시험을 볼 때처럼 긴장이 될 때라도 외운 것을 기억하는 데는 별 문제가 없다.',
+          '수업시간에 선생님이 중요하다고 지적한 부분을 쉽게, 또렷이 기억할 수 있다.',
+          '조금 더 확실히 기억하기 위해 같은 학습내용을 두 번 이상 반복해서 본다.',
+          '학습내용을 암기하기 전에 먼저 이해하는 과정을 거친다.'
+        ]
+      },
+      {
+        id: 4,
+        name: '읽기',
+        description: '읽고 표시하고 이해를 점검하는 힘',
+        items: [
+          '예습복습을 하거나 시험공부를 할 때 교과서를 정독한다.',
+          '교과서나 참고서, 기타 일반 서적을 읽을 때 전후 맥락을 계속 떠올려가며 읽는다.',
+          '교과서나 참고서, 기타 일반 서적을 읽을 때 중요한 구절이 나오면 밑줄을 치거나 형광펜을 칠한다.',
+          '교과서나 참고서, 기타 일반 서적을 읽는 동안 다른 생각을 하거나 졸지 않는다.',
+          '교과서나 기타 일반 서적을 읽을 때 책의 내용과 생활을 연결시킨다.',
+          '문학의 경우 감상하며 읽기, 설명문의 경우 분석하며 읽기처럼 글의 형태에 따라 각기 다른 독서법을 사용한다.',
+          '글을 읽으면서 효율적으로 메모를 한다.',
+          '읽은 내용을 이해하지 못했을 경우에는 체크해 놓았다가 답을 알아본다.'
+        ]
+      },
+      {
+        id: 5,
+        name: '노트 필기',
+        description: '수업 핵심을 자기 언어로 정리하는 힘',
+        items: [
+          '수업을 집중해서 듣는다.',
+          '수업시간에 필기를 한다.',
+          '다양한 노트 필기법을 알고 있으며, 자신에게 가장 알맞은 방법으로 필기를 한다.',
+          '수업내용에서 중요한 것을 가려내어 핵심 구절을 필기한다.',
+          '선생님이 칠판 위에 적는 내용을 옮겨 적는다.',
+          '중요한 개념을 내 것으로 이해해서 다시 옮길 수 있다.',
+          '내 노트는 다시 읽어볼 가치가 있다.',
+          '24시간 내에 수업노트를 복습한다.'
+        ]
+      },
+      {
+        id: 6,
+        name: '시험',
+        description: '시험 상황에서 차분하고 전략적으로 수행하는 힘',
+        items: [
+          '시험에 대한 긴장감을 적절히 극복하고 차분하게 시험에 임한다.',
+          '시험 시간을 효율적으로 활용하여 제 시간 안에 시험을 마친다.',
+          '시험에 나올 만한 문제를 예측할 수 있다.',
+          '문항 수와 배점, 문제의 난이도 등을 고려하여 문제를 푸는 순서를 적절히 조정한다.',
+          '서술형 문제가 무엇을 묻는지 문제 의도를 이해하며 이에 대해 정확하고 완성된 답을 쓸 줄 안다.',
+          '시험 문제를 잘못 읽어 틀리는 경우는 거의 없다.',
+          '지문과 문제가 따로 있는 시험의 경우 지문에 딸려있는 문제들을 먼저 훑어보고 지문을 읽는다.',
+          '시험 성적과 내 개인의 인간적 가치는 아무 상관이 없다.'
+        ]
+      },
+      {
+        id: 7,
+        name: '사고력',
+        description: '생각을 확장하고 근거를 따져보는 힘',
+        items: [
+          '문제를 풀 때 순간적으로 문제 해결 방법이 떠오르기도 한다.',
+          '헷갈리는 문제를 접할 때는 여러 가지 생각을 떠올린 후 최종적인 답을 선택한다.',
+          '어려운 문제가 나와도 바로 해답을 보지 않고 혼자 힘으로 풀어보는 편이다.',
+          '교과 내용이 어렵다 해도 포기하지 않고 이해하기 위해 노력하는 과정을 거친다.',
+          '틀린 문제가 있으면 왜 틀렸는지 정확히 확인하고 이해하는 과정을 거친다.',
+          '글을 읽거나 대화를 나눌 때 논리적으로 맞지 않는 부분을 찾아내는 경우가 있다.',
+          '다른 사람이 어떤 주장을 할 때 그 이유나 근거에 관심을 기울이곤 한다.',
+          '생각을 하거나 말을 할 때 다른 사람들의 입장도 고려해 보는 편이다.'
+        ]
+      },
+      {
+        id: 8,
+        name: '건강',
+        description: '학습을 버티게 하는 몸과 생활 리듬의 힘',
+        items: [
+          '몸에 활기가 넘치고 잔병을 별로 앓지 않는다.',
+          '필요하다면 하루 온종일 집중해서 공부할 수 있을 만큼 충분한 체력이 있다.',
+          '날마다 일정한 시간에 잠자리에 들고 일정한 시간에 잠에서 깬다.',
+          '기분이나 감정에 따라 식사량이 달라지지는 않는다.',
+          '체육시간이나 기타 시간을 활용해 주3회 이상 운동을 하고 있다.',
+          '공부를 하는 데 방해가 되는 정신적이거나 정서적인 문제가 없다.',
+          '몸에 뭔가 이상이 있을 때면 휴식을 취하거나 약을 먹는 등 적절히 대처한다.',
+          '게임이나 인터넷, TV, 휴대폰에 대한 사용 욕구를 스스로 조절할 수 있다.'
+        ]
+      },
+      {
+        id: 9,
+        name: '의사소통',
+        description: '도움 요청과 협력을 가능하게 하는 관계의 힘',
+        items: [
+          '내가 어떤 사람인지, 어떤 감정 상태인지, 무엇을 원하는지 다른 사람들에게 솔직하게 말한다.',
+          '다른 사람이 말하는 것을 잘 듣는다.',
+          '화가 나고 기분이 나쁠 때, 다른 사람을 비난하지 않고도 내 감정을 효과적으로 전달할 수 있다.',
+          '새로운 환경에서 친구를 잘 사귀며 소중한 관계를 쌓아갈 줄 안다.',
+          '특정 과목 선생님이 개인적으로 마음에 들지 않아도 그 과목의 공부나 성적에 영향을 받지는 않는다.',
+          '교과 내용에서 잘 모르는 부분이 있으면 선생님이나 친구에게 질문을 함으로써 문제를 해결한다.',
+          '친구들과 공동으로 해결해야 하는 수행평가 과제가 있을 때는 친구들과 원만하게 협조해가며 과제를 해결한다.',
+          '수업 시간에 발표를 해야 하는 경우에는 자신감을 가지고 할 수 있다.'
+        ]
+      },
+      {
+        id: 10,
+        name: '목적의식',
+        description: '학교생활을 삶의 방향과 연결하는 힘',
+        items: [
+          '배움은 평생 동안 계속되는 것이라고 생각한다.',
+          '지금의 학교생활은 미래의 나의 계획과 연관관계를 맺고 있다.',
+          '다른 사람을 돕는 것이 나에게도 도움이 된다고 생각한다.',
+          '내가 많이 배울수록 앞으로 내가 살아갈 삶의 목표가 변화하고, 발전되고, 구체화될 수 있다고 여긴다.',
+          '분명한 삶의 목적을 가지고 있다.',
+          '나의 학교 생활을 즐겁고 보람되게 만드는 주인공은 나 자신이라고 여긴다.',
+          '내 삶의 질에 대해 스스로 책임을 져야 한다.',
+          '새로운 과제가 주어질 때 조금 어려운 느낌이 들더라도 한번 도전해 본다.'
+        ]
+      }
+    ];
+
+    const IMPROVEMENT_PROMPTS = {
+      1: [
+        '공부가 왜 나에게 필요한지, 지금 내 삶과 연결되는 이유를 한 문장으로 적어보면 무엇인가요?',
+        '억지로 버티는 공부가 아니라 스스로 해보고 싶은 작은 학습 목표 하나를 정한다면 무엇인가요?'
+      ],
+      2: [
+        '이번 주에 꼭 끝내고 싶은 공부를 3개만 고른다면 무엇인가요?',
+        '내 계획이 자주 무너지는 시간대나 상황은 무엇이며, 어떻게 미리 대비할 수 있나요?'
+      ],
+      3: [
+        '외워야 할 내용을 더 오래 기억하기 위해 내가 바로 바꿔볼 복습 방식은 무엇인가요?',
+        '이해하지 못한 채 넘기는 부분이 있다면, 어디서부터 다시 확인하면 좋을까요?'
+      ],
+      4: [
+        '읽다가 집중이 끊기거나 이해가 멈추는 지점은 주로 언제인가요?',
+        '읽은 내용을 더 잘 붙잡기 위해 밑줄, 메모, 요약 중 무엇부터 습관으로 만들 수 있나요?'
+      ],
+      5: [
+        '수업 내용을 내 언어로 다시 적는다면 무엇이 가장 먼저 달라져야 하나요?',
+        '필기한 내용을 24시간 안에 다시 보는 습관을 만들려면 언제가 가장 현실적인가요?'
+      ],
+      6: [
+        '시험에서 흔들리는 순간은 준비 부족, 시간 관리, 긴장 중 무엇과 가장 가까운가요?',
+        '다음 시험에서 한 가지만 바꾼다면 문제 푸는 순서, 검토 습관, 예측 공부 중 무엇을 먼저 시도하겠나요?'
+      ],
+      7: [
+        '어려운 문제를 만나면 내가 가장 먼저 보이는 반응은 무엇인가요?',
+        '틀린 문제를 그냥 넘기지 않기 위해 어떤 방식으로 이유를 확인하고 정리할 수 있나요?'
+      ],
+      8: [
+        '내 공부를 가장 많이 흔드는 생활 습관 하나는 무엇인가요?',
+        '수면, 운동, 휴대폰 사용 중 이번 주에 가장 먼저 바로잡을 수 있는 한 가지는 무엇인가요?'
+      ],
+      9: [
+        '혼자 끌어안고 말하지 못하는 공부 고민이 있다면 무엇인가요?',
+        '도움을 요청해야 할 사람 한 명을 떠올린다면 누구이며, 어떤 질문을 해볼 수 있나요?'
+      ],
+      10: [
+        '지금의 공부가 미래의 나와 연결된다고 느껴지는 순간은 언제인가요?',
+        '성적을 넘어서 내가 배우고 싶은 이유와 삶의 방향을 다시 붙잡으려면 어떤 질문이 필요할까요?'
+      ]
+    };
+
+    const state = loadState();
+    const app = document.getElementById('app');
+    const autosaveStatus = document.getElementById('autosave-status');
+
+    render();
+
+    function defaultState() {
+      return {
+        screen: 'intro',
+        sectionIndex: 0,
+        answers: {},
+        notes: {
+          top1: '',
+          top2: '',
+          top3: '',
+          low1: '',
+          low2: '',
+          low3: '',
+          improvement: ''
+        }
+      };
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        return saved ? { ...defaultState(), ...saved, notes: { ...defaultState().notes, ...(saved.notes || {}) } } : defaultState();
+      } catch (error) {
+        return defaultState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      autosaveStatus.textContent = '자동 저장 완료';
+      clearTimeout(saveState._t);
+      saveState._t = setTimeout(() => {
+        autosaveStatus.textContent = '자동 저장 켜짐';
+      }, 1200);
+    }
+
+    function setState(patch) {
+      Object.assign(state, patch);
+      saveState();
+      render();
+    }
+
+    function totalQuestionCount() {
+      return CATEGORIES.reduce((sum, category) => sum + category.items.length, 0);
+    }
+
+    function answeredCount() {
+      return Object.keys(state.answers).length;
+    }
+
+    function getQuestionKey(categoryId, itemIndex) {
+      return `${categoryId}-${itemIndex}`;
+    }
+
+    function getScoreToneLabel(score) {
+      return ({
+        5: '매우 그렇다',
+        4: '그렇다',
+        3: '보통이다',
+        2: '그렇지 않은 편이다',
+        1: '전혀 그렇지 않다'
+      })[score] || '';
+    }
+
+    function updateAnswer(categoryId, itemIndex, value) {
+      state.answers[getQuestionKey(categoryId, itemIndex)] = value;
+      saveState();
+      render();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          scrollToNextQuestion(categoryId, itemIndex);
+        });
+      });
+    }
+
+    function clearAll() {
+      if (!window.confirm('응답과 메모를 모두 지울까요?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      Object.assign(state, defaultState());
+      render();
+    }
+
+    function startTest() {
+      setState({ screen: 'test', sectionIndex: 0 });
+    }
+
+    function goSection(direction) {
+      const nextIndex = state.sectionIndex + direction;
+      if (nextIndex < 0 || nextIndex >= CATEGORIES.length) return;
+      setState({ sectionIndex: nextIndex });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToNextQuestion(categoryId, itemIndex) {
+      if (state.screen !== 'test') return;
+      const nextQuestion = document.querySelector(`[data-question-card="${categoryId}-${itemIndex + 1}"]`);
+      const fallbackTarget = document.getElementById('next-btn') || document.getElementById('finish-btn');
+      const target = nextQuestion || fallbackTarget;
+      if (!target) return;
+
+      document.querySelectorAll('.question-card.active-focus').forEach(card => card.classList.remove('active-focus'));
+      if (nextQuestion) nextQuestion.classList.add('active-focus');
+
+      const rect = target.getBoundingClientRect();
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const desiredOffset = window.innerWidth <= 768
+        ? Math.max(110, window.innerHeight * 0.28)
+        : 132;
+      const targetTop = rect.top + currentScroll - desiredOffset;
+      window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    }
+
+    function finishTest() {
+      if (answeredCount() < totalQuestionCount()) {
+        const ok = window.confirm('아직 답하지 않은 문항이 있습니다. 결과 화면으로 이동할까요?');
+        if (!ok) return;
+      }
+      setState({ screen: 'result' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToIntro() {
+      setState({ screen: 'intro' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToTest() {
+      setState({ screen: 'test' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function render() {
+      if (state.screen === 'intro') {
+        renderIntro();
+        return;
+      }
+      if (state.screen === 'test') {
+        renderTest();
+        return;
+      }
+      renderResult();
+    }
+
+    function renderIntro() {
+      const total = totalQuestionCount();
+      const introScaleLabels = {
+        5: '매우 그렇다',
+        4: '대체로 그렇다',
+        3: '보통이다',
+        2: '별로 그렇지 않다',
+        1: '전혀 그렇지 않다'
+      };
+      app.innerHTML = `
+        <section class="hero">
+          <div>
+            <div class="chip">DAILYCOACHING</div>
+            <div class="intro-kicker">학습의 방향을 함께 점검합니다</div>
+            <h1 style="margin-top:12px;">나의 자기주도학습 습관을 점검해보세요</h1>
+            <p style="margin-top:12px;">총 ${total}문항을 통해 학습 동기, 계획, 기억, 읽기, 시험 습관, 건강, 의사소통, 목적의식을 점검하고 현재의 강점과 보완점을 확인할 수 있습니다.</p>
+          </div>
+
+          <div class="hero-grid">
+            <div class="mini-panel">
+              <strong>소요 시간</strong>
+              <span>약 7~10분 안에 부담 없이 점검할 수 있습니다.</span>
+            </div>
+            <div class="mini-panel">
+              <strong>검사 구성</strong>
+              <span>총 ${total}문항, 10개 영역으로 현재의 학습 습관을 살펴봅니다.</span>
+            </div>
+            <div class="mini-panel">
+              <strong>검사 결과</strong>
+              <span>강점 3개, 보완점 3개와 영역별 점수를 바로 확인할 수 있습니다.</span>
+            </div>
+          </div>
+
+          <div class="mini-panel">
+            <strong style="margin-bottom:12px;">응답 안내</strong>
+            <span style="display:block; margin-bottom:12px;">정답은 없습니다. 평소의 나와 가장 가까운 응답을 선택해주세요.</span>
+            <div class="scale-grid">
+              ${[5,4,3,2,1].map(score => `
+                <div class="scale-item">
+                  <b>${score}점</b>
+                  <span>${introScaleLabels[score]}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="start-btn">검사 시작하기</button>
+            ${answeredCount() > 0 ? '<button class="btn btn-secondary" id="continue-btn">이어서 응답</button>' : ''}
+            <button class="btn btn-danger" id="reset-btn">기록 초기화</button>
+          </div>
+          <div class="helper">응답 내용은 이 브라우저에 자동 저장됩니다. 같은 기기와 브라우저에서 다시 열면 이어서 응답할 수 있습니다.<br><strong style="color: var(--text); font-weight: 700;">DAILYCOACHING은 점검에서 끝나지 않고, 변화의 다음 질문까지 함께 봅니다.</strong></div>
+        </section>
+      `;
+
+      document.getElementById('start-btn').onclick = startTest;
+      document.getElementById('reset-btn').onclick = clearAll;
+      const continueBtn = document.getElementById('continue-btn');
+      if (continueBtn) continueBtn.onclick = () => setState({ screen: 'test' });
+    }
+
+    function renderTest() {
+      const category = CATEGORIES[state.sectionIndex];
+      const sectionAnswered = category.items.filter((_, index) => state.answers[getQuestionKey(category.id, index)]).length;
+      const progress = Math.round((answeredCount() / totalQuestionCount()) * 100);
+
+      app.innerHTML = `
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span>전체 진행 ${answeredCount()} / ${totalQuestionCount()}</span>
+            <span>${progress}% 완료</span>
+          </div>
+          <div class="progress-bar"><div class="progress-value" style="width:${progress}%"></div></div>
+        </div>
+
+        <section class="page">
+          <div class="page-title">
+            <div>
+              <h2>(${category.id}) ${category.name}</h2>
+              <p>${category.description} · ${sectionAnswered}/${category.items.length} 응답</p>
+              <p class="helper" style="margin-top:6px;">원을 터치하면 다음 문항이 엄지 위치에 가깝게 자동 스크롤됩니다.</p>
+            </div>
+            <div class="chip">섹션 ${state.sectionIndex + 1} / ${CATEGORIES.length}</div>
+          </div>
+
+          <div class="question-list">
+            ${category.items.map((text, index) => {
+              const key = getQuestionKey(category.id, index);
+              const selected = state.answers[key];
+              return `
+                <article class="question-card ${selected ? 'is-complete' : ''}" data-question-card="${category.id}-${index}">
+                  <div class="question-head">
+                    <div class="question-head-top">
+                      <span class="question-number">${index + 1}</span>
+                      <span class="completion-badge ${selected ? 'done' : ''}">${selected ? '응답 완료' : '응답 전'}</span>
+                    </div>
+                    <h4>${text}</h4>
+                  </div>
+                  <div class="likert-wrap">
+                    <div class="mobile-poles" aria-hidden="true"><span class="agree">그렇다</span><span class="disagree">그렇지 않다</span></div>
+                    <div class="choice-row" role="radiogroup" aria-label="${index + 1}번 문항 응답">
+                      <div class="likert-side agree">그렇다</div>
+                      <div class="choice-scale">
+                        ${[5,4,3,2,1].map(score => `
+                          <button
+                            class="choice-btn score-${score} ${selected === score ? 'active' : ''}"
+                            data-score="${score}"
+                            data-category="${category.id}"
+                            data-item="${index}"
+                            data-short="${score}"
+                            type="button"
+                            role="radio"
+                            aria-checked="${selected === score ? 'true' : 'false'}"
+                            aria-label="${index + 1}번 문항, ${getScoreToneLabel(score)}, ${score}점"
+                            title="${getScoreToneLabel(score)} (${score}점)">
+                          </button>
+                        `).join('')}
+                      </div>
+                      <div class="likert-side disagree">그렇지 않다</div>
+                    </div>
+                    <div class="choice-hint" aria-hidden="true">
+                      <span>매우<br>그렇다</span>
+                      <span>그렇다</span>
+                      <span>보통</span>
+                      <span>아니다</span>
+                      <span>전혀<br>아니다</span>
+                    </div>
+                  </div>
+                </article>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="footer-nav">
+            <div class="group">
+              <button class="btn btn-secondary" id="back-intro-btn">처음으로</button>
+              <button class="btn btn-secondary" id="prev-btn" ${state.sectionIndex === 0 ? 'disabled' : ''}>이전 영역</button>
+            </div>
+            <div class="group">
+              ${state.sectionIndex < CATEGORIES.length - 1
+                ? '<button class="btn btn-primary" id="next-btn">다음 영역</button>'
+                : '<button class="btn btn-primary" id="finish-btn">결과 보기</button>'}
+            </div>
+          </div>
+        </section>
+      `;
+
+      document.querySelectorAll('.choice-btn').forEach(button => {
+        button.onclick = () => updateAnswer(Number(button.dataset.category), Number(button.dataset.item), Number(button.dataset.score));
+      });
+      document.getElementById('back-intro-btn').onclick = backToIntro;
+      document.getElementById('prev-btn').onclick = () => goSection(-1);
+      const nextBtn = document.getElementById('next-btn');
+      if (nextBtn) nextBtn.onclick = () => goSection(1);
+      const finishBtn = document.getElementById('finish-btn');
+      if (finishBtn) finishBtn.onclick = finishTest;
+    }
+
+    function calculateResults() {
+      const categories = CATEGORIES.map(category => {
+        const itemDetails = category.items.map((text, index) => {
+          const score = Number(state.answers[getQuestionKey(category.id, index)] || 0);
+          return { index: index + 1, text, score };
+        });
+        const score = itemDetails.reduce((sum, item) => sum + item.score, 0);
+        const lowItems = itemDetails.filter(item => item.score > 0 && item.score <= 2);
+        const answeredItems = itemDetails.filter(item => item.score > 0);
+        const lowestAnsweredScore = answeredItems.length
+          ? Math.min(...answeredItems.map(item => item.score))
+          : 0;
+        const revisitItems = lowItems.length
+          ? lowItems
+          : answeredItems.filter(item => item.score === lowestAnsweredScore);
+        const revisitMode = lowItems.length
+          ? 'low-score'
+          : answeredItems.length
+            ? 'relative-low-score'
+            : 'no-answer';
+
+        return {
+          id: category.id,
+          name: category.name,
+          description: category.description,
+          score,
+          average: Number((score / category.items.length).toFixed(2)),
+          itemDetails,
+          lowItems,
+          lowestAnsweredScore,
+          revisitItems,
+          revisitMode
+        };
+      });
+
+      const sortedDesc = [...categories].sort((a, b) => b.score - a.score || a.id - b.id);
+      const sortedAsc = [...categories].sort((a, b) => a.score - b.score || a.id - b.id);
+      const total = categories.reduce((sum, category) => sum + category.score, 0);
+      return {
+        categories,
+        sortedDesc,
+        sortedAsc,
+        top3: sortedDesc.slice(0, 3),
+        low3: sortedAsc.slice(0, 3),
+        total,
+        average: Number((total / totalQuestionCount()).toFixed(2))
+      };
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function renderPromptList(categoryId) {
+      const prompts = IMPROVEMENT_PROMPTS[categoryId] || [];
+      if (!prompts.length) return '';
+      return `
+        <div class="prompt-list">
+          ${prompts.map((prompt, index) => `
+            <div class="prompt-item"><b>권장 개선 질문 ${index + 1}</b><br>${prompt}</div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderRadar(categories) {
+      const size = 520;
+      const center = size / 2;
+      const radius = 175;
+      const steps = 8;
+      const maxScore = 40;
+
+      const labels = categories.map(category => category.name);
+      const points = categories.map((category, index) => {
+        const angle = (-Math.PI / 2) + (Math.PI * 2 * index / categories.length);
+        const valueRadius = radius * (category.score / maxScore);
+        return {
+          x: center + Math.cos(angle) * valueRadius,
+          y: center + Math.sin(angle) * valueRadius,
+          angle,
+          labelX: center + Math.cos(angle) * (radius + 32),
+          labelY: center + Math.sin(angle) * (radius + 32),
+          label: labels[index]
+        };
+      });
+
+      const polygonPoints = points.map(point => `${point.x},${point.y}`).join(' ');
+
+      const rings = Array.from({ length: steps }, (_, index) => {
+        const ringRadius = radius * ((index + 1) / steps);
+        const ringPoints = categories.map((_, itemIndex) => {
+          const angle = (-Math.PI / 2) + (Math.PI * 2 * itemIndex / categories.length);
+          return `${center + Math.cos(angle) * ringRadius},${center + Math.sin(angle) * ringRadius}`;
+        }).join(' ');
+        return `<polygon points="${ringPoints}" fill="none" stroke="#ddd3f4" stroke-width="1"></polygon>`;
+      }).join('');
+
+      const axes = categories.map((_, index) => {
+        const angle = (-Math.PI / 2) + (Math.PI * 2 * index / categories.length);
+        return `<line x1="${center}" y1="${center}" x2="${center + Math.cos(angle) * radius}" y2="${center + Math.sin(angle) * radius}" stroke="#ddd3f4" stroke-width="1"></line>`;
+      }).join('');
+
+      const labelsSvg = points.map(point => `
+        <text x="${point.labelX}" y="${point.labelY}" font-size="15" font-weight="700" fill="#5f5675" text-anchor="middle" dominant-baseline="middle">${escapeHtml(point.label)}</text>
+      `).join('');
+
+      const ticks = Array.from({ length: steps }, (_, index) => {
+        const value = (maxScore / steps) * (index + 1);
+        const y = center - (radius * ((index + 1) / steps));
+        return `<text x="${center + 6}" y="${y - 4}" font-size="11" fill="#8d84a3">${value}</text>`;
+      }).join('');
+
+      return `
+        <svg viewBox="0 0 ${size} ${size}" role="img" aria-label="영역별 점수 레이더 차트">
+          ${rings}
+          ${axes}
+          <polygon points="${polygonPoints}" fill="rgba(107, 76, 214, 0.16)" stroke="#6b4cd6" stroke-width="3"></polygon>
+          ${points.map(point => `<circle cx="${point.x}" cy="${point.y}" r="4" fill="#6b4cd6"></circle>`).join('')}
+          ${labelsSvg}
+          ${ticks}
+        </svg>
+      `;
+    }
+
+    function updateNote(field, value) {
+      state.notes[field] = value;
+      saveState();
+    }
+
+    function renderReasonInputs(title, targets, fieldPrefix) {
+      return `
+        <div class="section-card">
+          <div class="section-title">
+            <h3>${title}</h3>
+            <p>가장 높은 영역과 낮은 영역의 이유를 짧게 적어보며 결과를 해석해보세요.</p>
+          </div>
+          <div class="note-grid">
+            ${targets.map((target, index) => `
+              <div class="note-item">
+                <strong>(${index + 1}) ${target.name} · ${target.score}점</strong>
+                <textarea data-note="${fieldPrefix}${index + 1}" placeholder="이 점수가 나온 이유를 간단히 적어보세요.">${escapeHtml(state.notes[`${fieldPrefix}${index + 1}`] || '')}</textarea>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderResult() {
+      const result = calculateResults();
+      const completion = Math.round((answeredCount() / totalQuestionCount()) * 100);
+
+      app.innerHTML = `
+        <section class="page">
+          <div class="page-title">
+            <div>
+              <h2>검사 결과</h2>
+              <p>영역별 점수, 레이더 차트, 높은 점수 3개, 낮은 점수 3개, 낮은 점수 문항 다시 보기</p>
+            </div>
+            <div class="chip">응답률 ${completion}%</div>
+          </div>
+
+          <div class="result-hero">
+            <div class="metric-hero">
+              <small>전체 결과 한눈에 보기</small>
+              <strong>${result.total}점</strong>
+              <div class="sub">
+                <span>문항 평균 ${result.average}점</span>
+                <span>응답 ${answeredCount()} / ${totalQuestionCount()}</span>
+                <span>완료율 ${completion}%</span>
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-block">
+                <strong>높은 점수 3개</strong>
+                <div class="tag-list">
+                  ${result.top3.map(item => `<div class="tag good">${item.name} · ${item.score}점</div>`).join('')}
+                </div>
+              </div>
+              <div class="summary-block">
+                <strong>낮은 점수 3개</strong>
+                <div class="tag-list">
+                  ${result.low3.map(item => `<div class="tag bad">${item.name} · ${item.score}점</div>`).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-grid">
+            <div class="section-card">
+              <div class="section-title">
+                <h3>영역별 점수</h3>
+                <p>영역당 최대 40점입니다.</p>
+              </div>
+              <div class="score-list">
+                ${result.categories.map(category => `
+                  <div class="score-item">
+                    <div class="label">(${category.id}) ${category.name}</div>
+                    <div class="bar"><span style="width:${(category.score / 40) * 100}%"></span></div>
+                    <div><strong>${category.score}</strong> / 40</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="section-card">
+              <div class="section-title">
+                <h3>레이더 차트</h3>
+                <p>원본 결과지의 항목점수 차트를 웹에서 바로 볼 수 있게 구성했습니다.</p>
+              </div>
+              <div class="svg-wrap">${renderRadar(result.categories)}</div>
+            </div>
+          </div>
+
+          <div class="result-grid" style="margin-top:18px;">
+            ${renderReasonInputs('높은 점수 3개와 그 이유', result.top3, 'top')}
+            ${renderReasonInputs('낮은 점수 3개와 그 이유', result.low3, 'low')}
+          </div>
+
+          <div class="section-card" style="margin-top:18px;">
+            <div class="section-title">
+              <h3>낮은 점수 영역 다시 보기</h3>
+              <p>빈 박스가 남지 않도록, 1점·2점 문항이 없을 때도 각 약점 영역 안에서 상대적으로 가장 낮았던 문항을 보여줍니다.</p>
+            </div>
+            <div class="revisit-stack">
+              ${result.low3.map(category => `
+                <div class="revisit-card">
+                  <h4>${category.name}</h4>
+                  ${category.revisitMode === 'low-score'
+                    ? `<div class="helper" style="margin-bottom:10px;">이 영역에서 1점 또는 2점으로 응답한 문항입니다.</div>`
+                    : category.revisitMode === 'relative-low-score'
+                      ? `<div class="helper" style="margin-bottom:10px;">1점 또는 2점 문항은 없어서, 이 영역에서 가장 낮게 응답한 ${category.lowestAnsweredScore}점 문항을 보여드립니다.</div>`
+                      : '<div class="empty-state">아직 이 영역에 응답한 문항이 없습니다.</div>'}
+                  ${category.revisitMode !== 'no-answer'
+                    ? `<div class="low-item-list">${category.revisitItems.map(item => `
+                        <div class="low-item"><b>${item.score}점</b> · ${item.index}. ${item.text}</div>
+                      `).join('')}</div>`
+                    : ''}
+                  ${renderPromptList(category.id)}
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="note-item" style="margin-top:14px;">
+              <strong>나의 약점 개선방법</strong>
+              <textarea id="improvement-note" placeholder="이번 주에 바꿔볼 수 있는 구체적인 행동을 적어보세요.">${escapeHtml(state.notes.improvement || '')}</textarea>
+            </div>
+          </div>
+
+          <div class="footer-nav no-print">
+            <div class="group">
+              <button class="btn btn-secondary" id="back-test-btn">응답 화면으로</button>
+              <button class="btn btn-secondary" id="back-home-btn">처음으로</button>
+            </div>
+            <div class="group">
+              <button class="btn btn-secondary" id="print-btn">결과 저장/인쇄</button>
+              <button class="btn btn-danger" id="reset-result-btn">기록 초기화</button>
+            </div>
+          </div>
+
+          <div class="print-only helper center" style="margin-top:16px;">자기주도학습 역량검사 결과 요약</div>
+        </section>
+      `;
+
+      document.querySelectorAll('[data-note]').forEach(textarea => {
+        textarea.addEventListener('input', event => updateNote(textarea.dataset.note, event.target.value));
+      });
+      document.getElementById('improvement-note').addEventListener('input', event => updateNote('improvement', event.target.value));
+      document.getElementById('back-test-btn').onclick = backToTest;
+      document.getElementById('back-home-btn').onclick = backToIntro;
+      document.getElementById('print-btn').onclick = () => window.print();
+      document.getElementById('reset-result-btn').onclick = clearAll;
+    }
+  </script>
+</body>
+</html>
+
