@@ -1,0 +1,577 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>마음챙김 질문 카드</title>
+  <style>
+    :root{
+      --ink:#14131a;
+      --cardText:#14131a;
+      --btnText:#14131a;
+
+      --panel: rgba(255,255,255,0.82);
+      --stroke: rgba(20,19,26,0.10);
+      --shadow: 0 18px 55px rgba(20,19,26,0.10);
+
+      --r24:24px;
+      --r28:28px;
+      --tap: 52px;
+
+      /* Default theme (calm) */
+      --bgA:#f3fbff;
+      --bgB:#eef6ff;
+      --bgC:#f4fffd;
+      --accent:#2563eb;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(900px 520px at 18% 10%, rgba(37,99,235,0.18), transparent 60%),
+        radial-gradient(900px 520px at 86% 6%, rgba(236,72,153,0.10), transparent 60%),
+        radial-gradient(900px 520px at 60% 88%, rgba(6,182,212,0.12), transparent 60%),
+        linear-gradient(180deg, var(--bgA), var(--bgB) 45%, var(--bgC));
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px 16px calc(28px + env(safe-area-inset-bottom));
+      min-height: 100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .shell{
+      width:100%;
+      border-radius: var(--r28);
+      border: 1px solid var(--stroke);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    header{
+      padding: 18px 18px 14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 1px solid rgba(20,19,26,0.06);
+      background:
+        radial-gradient(520px 160px at 15% 0%, rgba(255,255,255,0.55), transparent 70%),
+        radial-gradient(520px 160px at 85% 0%, rgba(255,255,255,0.40), transparent 70%),
+        transparent;
+    }
+
+    .brand{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+    .title{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 860;
+      letter-spacing:-0.02em;
+      font-size: 16px;
+      line-height:1.2;
+      white-space:nowrap;
+    }
+    .dot{
+      width: 10px; height: 10px; border-radius: 99px;
+      background: conic-gradient(from 180deg, var(--accent), rgba(236,72,153,0.92), rgba(6,182,212,0.92), var(--accent));
+      box-shadow: 0 10px 18px rgba(20,19,26,0.10);
+      flex:0 0 auto;
+    }
+    .sub{
+      margin:0;
+      color: rgba(74,70,86,0.90);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(20,19,26,0.10);
+      background: rgba(255,255,255,0.78);
+      box-shadow: 0 10px 18px rgba(20,19,26,0.06);
+      user-select:none;
+      white-space:nowrap;
+      height: 40px;
+      color: rgba(74,70,86,0.95);
+      font-size:12.5px;
+    }
+    .status strong{ color: var(--ink); font-weight:850; }
+
+    .content{ padding: 18px; }
+
+    .stage{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+
+    .card{
+      border-radius: var(--r28);
+      border: 1px solid rgba(20,19,26,0.10);
+      overflow:hidden;
+      min-height: 360px;
+      box-shadow: 0 16px 40px rgba(20,19,26,0.10);
+      background:
+        radial-gradient(720px 320px at 20% 10%, rgba(255,255,255,0.50), transparent 65%),
+        radial-gradient(720px 320px at 85% 0%, rgba(255,255,255,0.35), transparent 70%),
+        radial-gradient(720px 320px at 60% 95%, rgba(255,255,255,0.32), transparent 70%),
+        linear-gradient(180deg, var(--bgA), var(--bgB) 45%, var(--bgC));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      position:relative;
+    }
+
+    .question{
+      margin:0;
+      width: min(820px, 100%);
+      text-align:center;
+      color: var(--cardText);
+      font-size: clamp(20px, 3.4vw, 32px);
+      line-height: 1.55;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+      word-break: keep-all;
+    }
+
+    /* 아주 미세한 “카드 느낌” */
+    .glow{
+      position:absolute;
+      inset:-2px;
+      pointer-events:none;
+      border-radius: var(--r28);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+      opacity: 0.85;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .btn{
+      min-height: var(--tap);
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(20,19,26,0.10);
+      background: rgba(255,255,255,0.86);
+      box-shadow: 0 12px 26px rgba(20,19,26,0.06);
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      white-space:nowrap;
+      color: var(--btnText);
+      font-weight: 750;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 14px 28px rgba(20,19,26,0.10); }
+    .btn:active{ transform: translateY(0); }
+    .btn:disabled{ opacity:0.55; cursor:not-allowed; transform:none; }
+
+    .btn.primary{
+      color:#fff;
+      border-color: rgba(20,19,26,0.08);
+      background: linear-gradient(135deg, rgba(20,19,26,0.92), rgba(20,19,26,0.78));
+      box-shadow: 0 16px 34px rgba(20,19,26,0.16);
+    }
+
+    .btnRowRight{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+
+    /* Idle overlay */
+    .idle{
+      border-radius: var(--r28);
+      border: 1px solid rgba(20,19,26,0.08);
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 12px 28px rgba(20,19,26,0.06);
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      align-items:center;
+      text-align:center;
+    }
+    .idle h2{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing:-0.02em;
+      font-weight: 900;
+    }
+    .idle p{
+      margin: 0;
+      color: rgba(74,70,86,0.92);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+
+    /* Focus */
+    :focus-visible{
+      outline: 3px solid rgba(20,19,26,0.22);
+      outline-offset: 2px;
+      border-radius: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="shell" role="application" aria-label="컬러 질문 카드">
+
+      <header>
+        <div class="brand">
+          <div class="title"><span class="dot" aria-hidden="true"></span>마음챙김 질문 카드</div>
+          <p class="sub">질문에 솔직하게 대답해보세요.</p>
+        </div>
+        <div class="status" title="진행 상태">
+          <span>진행</span> <strong id="progress">0</strong>/<strong id="total">0</strong>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="stage">
+
+          <div class="card" aria-label="질문 카드">
+            <div class="glow" aria-hidden="true"></div>
+            <p class="question" id="questionText" style="display:none;"></p>
+
+            <div class="idle" id="idleBox">
+              <h2>마음챙김을 시작할까요?</h2>
+              <p>
+                “다음”을 누를 때마다 <strong>마음챙김을 위한 랜덤 질문</strong>이 한 장씩 나옵니다.<br/>
+                (총 120장)
+              </p>
+              <div style="margin-top:10px;">
+                <button class="btn primary" id="btnStart" type="button">시작</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions" aria-label="컨트롤">
+            <button class="btn" id="btnNext" type="button" disabled>다음</button>
+            <div class="btnRowRight">
+              <button class="btn" id="btnDone" type="button" disabled>완료</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* =========================================================
+  요구사항 반영
+  - 참여자 설정 삭제
+  - 답변 입력창 삭제
+  - 시작 -> 카드 표시
+  - 다음 -> 컬러카드(테마 색) + 질문만 표시
+  - 완료 -> 종료(초기 화면 복귀)
+  - 질문 반복 완화: "덱(셔플) 방식" + 덱 소진 시 재셔플(최근 N장 회피)
+  - 카드: 각 테마당 20개씩
+========================================================= */
+
+/* ===== 테마(컬러 톤) ===== */
+const THEMES = {
+  calm:   { bgA:"#f3fbff", bgB:"#eef6ff", bgC:"#f4fffd", accent:"#2563eb" }, // 진정/불안완화(블루)
+  soothe: { bgA:"#fff7fb", bgB:"#f7f2ff", bgC:"#fff0f6", accent:"#ec4899" }, // 위로/자기연민(핑크)
+  clear:  { bgA:"#f3fff9", bgB:"#effaf8", bgC:"#f2fbff", accent:"#06b6d4" }, // 명료/정리(시안)
+  bold:   { bgA:"#fff7ed", bgB:"#fff1f2", bgC:"#fff7fb", accent:"#f97316" }, // 경계/표현(코랄)
+  connect:{ bgA:"#fff7ed", bgB:"#fff4e6", bgC:"#fff7fb", accent:"#fb7185" }, // 관계/연결(피치)
+  restore:{ bgA:"#f4fff6", bgB:"#effdf5", bgC:"#f5fbff", accent:"#10b981" }, // 회복/몸(그린)
+};
+
+/* ===== 테마별 20장(총 120장) ===== */
+const CARDS = [
+  // calm 20
+  ...[
+    "지금 내 몸에서 가장 먼저 느껴지는 감각은 어디인가요?",
+    "숨을 3번만 느껴볼 때, 들숨과 날숨 중 더 쉬운 쪽은 어느 쪽인가요?",
+    "지금 내 어깨·턱·손에 들어간 힘을 1%만 풀어본다면 어디부터일까요?",
+    "지금 보이는 것 3가지, 들리는 것 2가지, 느껴지는 감각 1가지는 무엇인가요?",
+    "지금 내 마음이 ‘급해’라고 말한다면, 무엇이 급하다고 느끼나요?",
+    "지금 불안은 무엇을 지키려는 신호일까요?",
+    "지금 이 순간, 내가 안전하다고 느낄 수 있는 작은 근거는 무엇인가요?",
+    "오늘의 속도를 10%만 늦춘다면, 무엇이 달라질까요?",
+    "지금 필요한 것은 ‘해결’일까요, ‘진정’일까요?",
+    "지금 머릿속 소음을 줄이기 위해 가장 먼저 줄일 수 있는 자극은 무엇인가요?",
+    "지금 내 호흡이 말해주는 ‘오늘의 컨디션’은 어떤가요?",
+    "지금의 긴장을 색으로 표현한다면 어떤 색에 가까울까요?",
+    "지금 떠오르는 걱정을 종이에 내려놓는다면, 한 문장으로 무엇인가요?",
+    "지금 내 마음이 가장 붙잡고 있는 ‘최악의 그림’은 무엇인가요?",
+    "지금 그 최악의 그림이 사실일 확률은 몇 퍼센트일까요?",
+    "지금 이 순간에만 집중한다면, 내가 할 수 있는 행동 1가지는 무엇인가요?",
+    "지금의 불안이 내게 부탁하는 것은 ‘준비’인가요, ‘확인’인가요?",
+    "지금 내 몸이 원하는 자세는 무엇인가요? (앉기/서기/눕기/걷기)",
+    "지금 ‘괜찮아’라고 말해주고 싶은 내 안의 부분은 어디인가요?",
+    "지금 이 순간을 버티게 해주는 작은 루틴 1가지는 무엇인가요?"
+  ].map((t,i)=>({ id:`calm_${i+1}`, theme:"calm", text:t })),
+
+  // soothe 20
+  ...[
+    "지금의 감정에 이름을 붙인다면 어떤 단어가 가장 가까울까요?",
+    "지금의 나에게 가장 필요한 ‘친절한 말’ 한 문장은 무엇인가요?",
+    "지금 힘든 이유를 ‘의지 부족’ 대신 다른 말로 부른다면 무엇일까요?",
+    "지금의 나를 탓하지 않고 설명한다면, 어떤 문장이 될까요?",
+    "내가 나에게 가장 가혹해지는 순간은 언제인가요?",
+    "그 순간, 사실 내가 원했던 것은 무엇인가요?",
+    "지금의 실수를 ‘사람 됨’의 일부로 인정한다면, 무엇을 허락할 수 있나요?",
+    "지금의 내 마음을 0~10으로 아프다고 하면 몇 점일까요?",
+    "그 점수를 1만 낮추기 위해 필요한 것은 무엇인가요?",
+    "지금의 나에게 “그럴 수 있어”라고 말해주고 싶은 장면은 무엇인가요?",
+    "지금 나를 편들어주는 사람/기억/문장이 있다면 무엇인가요?",
+    "지금의 불편함을 없애려 하기보다, 잠시 곁에 둔다면 무엇을 알려줄까요?",
+    "지금 내 마음이 가장 두려워하는 것은 무엇인가요?",
+    "그 두려움을 가진 내가 ‘나쁜 사람’이 아니라는 근거 1가지는 무엇인가요?",
+    "오늘 나를 위해 할 수 있는 가장 작은 배려는 무엇인가요?",
+    "지금 내가 받고 싶은 위로를 한 문장으로 쓰면 무엇인가요?",
+    "지금의 나에게 필요한 것은 ‘채찍’일까요, ‘담요’일까요?",
+    "지금의 나는 어떤 부분에서 이미 충분히 애쓰고 있나요?",
+    "지금 나에게 가장 소중한 가치는 무엇이고, 그 가치를 지키려다 힘든 건가요?",
+    "지금 이 순간, 나에게 가장 공정한 평가는 무엇인가요?"
+  ].map((t,i)=>({ id:`soothe_${i+1}`, theme:"soothe", text:t })),
+
+  // clear 20
+  ...[
+    "지금 떠오르는 생각은 ‘사실’인가요, ‘이야기’인가요?",
+    "지금 문제의 핵심을 한 문장으로 줄이면 무엇인가요?",
+    "지금 내가 통제할 수 있는 것 1가지와 통제할 수 없는 것 1가지는 무엇인가요?",
+    "지금의 선택에서 내가 지키고 싶은 가치 1가지는 무엇인가요?",
+    "지금 나를 흔드는 기준은 ‘나의 기준’인가요, ‘남의 기준’인가요?",
+    "지금의 우선순위를 1~3으로 정하면 무엇이 1순위인가요?",
+    "지금 당장 할 수 있는 ‘최소 행동’ 1가지는 무엇인가요?",
+    "지금 해야 할 일과, 해도 그만인 일을 구분하면 무엇이 남나요?",
+    "지금 내 에너지를 새는 곳 1가지를 고르면 무엇인가요?",
+    "지금의 걱정이 나를 돕는 부분이 있다면 무엇을 준비시키나요?",
+    "지금의 계획에서 가장 불확실한 가정 1가지는 무엇인가요?",
+    "그 가정을 확인하기 위한 질문 1가지는 무엇인가요?",
+    "지금 내 마음속 ‘해야 한다’는 문장을 있는 그대로 적으면 무엇인가요?",
+    "그 문장을 ‘원한다’로 바꾸면 무엇이 달라지나요?",
+    "지금 완벽 대신 ‘충분히 좋음’을 선택한다면 기준은 무엇인가요?",
+    "지금의 혼란을 ‘정보 부족’과 ‘감정 과부하’로 나누면 어느 쪽에 가깝나요?",
+    "지금의 결정을 미루는 이유를 한 단어로 하면 무엇인가요?",
+    "그 이유를 줄이기 위한 한 가지 조건은 무엇인가요?",
+    "지금의 목표를 더 작게 쪼갠다면 다음 한 칸은 무엇인가요?",
+    "지금 가장 먼저 정리해야 할 ‘한 문장’은 무엇인가요?"
+  ].map((t,i)=>({ id:`clear_${i+1}`, theme:"clear", text:t })),
+
+  // bold 20
+  ...[
+    "지금의 분노는 어떤 경계를 지키라는 신호일까요?",
+    "지금 내가 참지 말았어야 했던 ‘선’은 무엇이었나요?",
+    "지금 내 마음이 말하고 싶은 ‘진짜 한 문장’은 무엇인가요?",
+    "지금 ‘싫다’고 말하고 싶은 것은 정확히 무엇인가요?",
+    "지금의 불편함을 키운 침묵이 있다면, 어떤 침묵이었나요?",
+    "내가 지키고 싶은 나의 기준 1가지는 무엇인가요?",
+    "그 기준을 지키기 위해 필요한 행동 1가지는 무엇인가요?",
+    "지금 상대에게 바라는 것은 ‘변화’인가요, ‘멈춤’인가요?",
+    "지금 ‘도움이 필요해’라고 말하는 용기를 낸다면 누구에게 말할까요?",
+    "지금 내 감정을 왜곡시키는 ‘당연함’은 무엇인가요?",
+    "지금 내가 두려워하는 갈등은 무엇이고, 그 대가로 무엇을 잃고 있나요?",
+    "지금의 분노 아래 숨은 감정은 무엇인가요? (상처/실망/두려움 등)",
+    "지금 내 몸이 ‘싫다’고 말하는 지점은 어디인가요?",
+    "지금 ‘아니다’라고 말해야 하는 상황이 있다면 무엇인가요?",
+    "지금 내가 미뤄둔 사과/요청/거절이 있다면 무엇인가요?",
+    "지금 ‘나를 보호하는 문장’ 하나를 만든다면 무엇인가요?",
+    "지금 내가 허용하지 않을 행동 1가지는 무엇인가요?",
+    "지금 내가 스스로에게 하고 있는 과도한 약속은 무엇인가요?",
+    "지금 나를 위한 단호함이 ‘공격’이 아니라는 근거는 무엇인가요?",
+    "지금의 용기가 필요해지는 순간은 언제이고, 그때 나는 무엇을 할까요?"
+  ].map((t,i)=>({ id:`bold_${i+1}`, theme:"bold", text:t })),
+
+  // connect 20
+  ...[
+    "지금의 서운함 속에 있는 ‘바람’은 무엇인가요?",
+    "상대에게 바라는 것을 ‘요구’가 아니라 ‘부탁’으로 바꾼다면 어떤 문장이 될까요?",
+    "지금 상대의 의도를 단정하기 전에 확인해야 할 사실 1가지는 무엇인가요?",
+    "지금 나의 감정을 가장 안전하게 말할 수 있는 사람은 누구인가요?",
+    "지금 관계에서 내가 놓치고 있는 ‘좋았던 의도’가 있다면 무엇인가요?",
+    "지금 내가 원하는 것은 ‘이해’인가요, ‘해결’인가요?",
+    "지금 상대에게 듣고 싶은 말 한 문장은 무엇인가요?",
+    "지금 내가 상대에게 먼저 해줄 수 있는 작은 존중은 무엇인가요?",
+    "지금 내 마음이 가장 아픈 지점은 어떤 기대가 깨졌기 때문인가요?",
+    "지금의 갈등에서 내가 지키고 싶은 가치는 무엇인가요?",
+    "지금 상대와 나 사이에 ‘오해’가 있다면 무엇일 가능성이 큰가요?",
+    "지금 대화를 시작한다면 첫 문장은 무엇이 가장 부드러울까요?",
+    "지금의 거리감이 필요한 이유가 있다면 무엇인가요?",
+    "지금 상대에게서 ‘안심’받고 싶은 지점은 무엇인가요?",
+    "지금 내가 진짜로 원하는 연결은 어떤 형태인가요? (대화/함께 있음/도움 등)",
+    "지금 관계에서 내가 반복하는 패턴 1가지는 무엇인가요?",
+    "지금 상대에게 인정하고 싶은 점 1가지는 무엇인가요?",
+    "지금 나의 경계를 설명한다면 ‘나-메시지’로 어떤 문장이 될까요?",
+    "지금 외로움을 조금 덜어줄 안전한 연결은 누구/무엇인가요?",
+    "지금의 관계를 1%만 더 좋게 만드는 행동 1가지는 무엇인가요?"
+  ].map((t,i)=>({ id:`connect_${i+1}`, theme:"connect", text:t })),
+
+  // restore 20
+  ...[
+    "오늘의 에너지를 100으로 두면 지금은 몇 정도인가요?",
+    "그 수치를 5만 올리려면 무엇이 필요할까요?",
+    "내 몸이 ‘잠깐 쉬자’고 말한다면 어떤 휴식을 원하나요?",
+    "지금 내 몸에 가장 부족한 것은 수면/수분/영양/움직임 중 무엇인가요?",
+    "지금 ‘회복’을 위해 오늘 포기해도 되는 일 1가지는 무엇인가요?",
+    "지금 몸이 보내는 신호를 1가지 인정한다면 무엇인가요?",
+    "지금의 피로는 ‘과로’인가요, ‘감정 소모’인가요?",
+    "지금 나에게 가장 도움이 되는 속도는 어떤 속도인가요?",
+    "지금 몸을 편하게 만드는 자세 1가지를 바로 해볼 수 있나요?",
+    "지금 내가 무시하고 있는 기본 욕구는 무엇인가요? (식사/휴식/정리/햇빛 등)",
+    "지금 내 하루에서 회복을 방해하는 습관 1가지는 무엇인가요?",
+    "지금 회복을 돕는 환경을 하나만 바꾼다면 무엇을 바꾸나요?",
+    "지금 내 몸이 원하는 온도는 어떤가요? (따뜻함/서늘함/바람 등)",
+    "지금 마음이 무거울수록 필요한 ‘가벼운 행동’은 무엇인가요?",
+    "지금 내 몸이 편안하다고 느끼는 장소는 어디인가요?",
+    "지금 회복을 위해 ‘도움 요청’이 가능한가요, 가능하다면 누구에게인가요?",
+    "지금의 컨디션을 고려할 때 오늘의 목표를 어떻게 조정하면 좋을까요?",
+    "지금 몸의 긴장을 줄이기 위해 가장 효과적인 30초는 무엇인가요?",
+    "지금 ‘충분함’의 기준을 낮춘다면 무엇이 달라질까요?",
+    "지금 나를 회복시키는 작은 즐거움 1가지는 무엇인가요?"
+  ].map((t,i)=>({ id:`restore_${i+1}`, theme:"restore", text:t })),
+];
+
+/* ===== UI ===== */
+const $ = (id)=>document.getElementById(id);
+const questionText = $("questionText");
+const idleBox = $("idleBox");
+const btnStart = $("btnStart");
+const btnNext = $("btnNext");
+const btnDone = $("btnDone");
+const progress = $("progress");
+const total = $("total");
+
+total.textContent = String(CARDS.length);
+
+/* ===== Deck (반복 완화 핵심) =====
+   - 덱 생성: 전체 카드 셔플 -> 한 번씩만 나오게(실질적 무반복)
+   - 덱 소진 시: 최근 N장(recentWindow)과 겹치지 않도록 재셔플 보정
+*/
+let deck = [];
+let index = 0;
+let recent = []; // 최근 카드 id
+const recentWindow = 8;
+
+function shuffleInPlace(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildDeckAvoidingRecent(){
+  const base = CARDS.slice();
+  shuffleInPlace(base);
+
+  // 덱 첫 recentWindow 구간이 최근과 너무 겹치면 몇 번 재셔플
+  for(let tries=0; tries<6; tries++){
+    const head = base.slice(0, Math.min(recentWindow, base.length)).map(c=>c.id);
+    const overlap = head.filter(id=>recent.includes(id)).length;
+    if(overlap === 0) break;
+    shuffleInPlace(base);
+  }
+  return base;
+}
+
+function applyTheme(themeKey){
+  const t = THEMES[themeKey] || THEMES.calm;
+  document.documentElement.style.setProperty("--bgA", t.bgA);
+  document.documentElement.style.setProperty("--bgB", t.bgB);
+  document.documentElement.style.setProperty("--bgC", t.bgC);
+  document.documentElement.style.setProperty("--accent", t.accent);
+
+  // 헤더 dot 색감도 theme accent에 자연스럽게 반응
+}
+
+function showCard(card){
+  applyTheme(card.theme);
+  questionText.textContent = card.text;
+
+  // 진행 표시
+  progress.textContent = String(Math.min(index, deck.length));
+}
+
+function startSession(){
+  recent = [];
+  deck = buildDeckAvoidingRecent();
+  index = 0;
+
+  idleBox.style.display = "none";
+  questionText.style.display = "";
+  btnNext.disabled = false;
+  btnDone.disabled = false;
+
+  nextCard(); // 시작 누르면 즉시 1장
+}
+
+function nextCard(){
+  // 덱 소진 시 재생성(최근 회피)
+  if(index >= deck.length){
+    deck = buildDeckAvoidingRecent();
+    index = 0;
+  }
+
+  const card = deck[index];
+  index += 1;
+
+  // 최근 큐 업데이트
+  recent.push(card.id);
+  if(recent.length > recentWindow) recent = recent.slice(-recentWindow);
+
+  showCard(card);
+}
+
+function endSession(){
+  // 초기 상태 복귀
+  deck = [];
+  index = 0;
+  recent = [];
+
+  questionText.textContent = "";
+  questionText.style.display = "none";
+  idleBox.style.display = "";
+  btnNext.disabled = true;
+  btnDone.disabled = true;
+  progress.textContent = "0";
+
+  // 기본 테마로 복귀
+  applyTheme("calm");
+}
+
+/* ===== Events ===== */
+btnStart.addEventListener("click", startSession);
+btnNext.addEventListener("click", nextCard);
+btnDone.addEventListener("click", endSession);
+
+// 키보드: Space/Enter = Next, Esc = Done
+document.addEventListener("keydown",(e)=>{
+  if(btnNext.disabled) return;
+  if(e.key === "Escape"){
+    endSession();
+  }else if(e.key === " " || e.key === "Enter"){
+    e.preventDefault();
+    nextCard();
+  }
+});
+</script>
+</body>
+</html>
+
